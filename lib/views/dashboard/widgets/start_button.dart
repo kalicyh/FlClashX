@@ -38,23 +38,20 @@ class _StartButtonState extends ConsumerState<StartButton>
       vsync: this,
       duration: const Duration(milliseconds: 150),
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(
-        parent: _pressController,
-        curve: Curves.easeOut,
-      ),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.95,
+    ).animate(CurvedAnimation(parent: _pressController, curve: Curves.easeOut));
 
-    ref.listenManual(
-      runTimeProvider.select((state) => state != null),
-      (prev, next) {
-        if (next != isStart) {
-          isStart = next;
-          updateController();
-        }
-      },
-      fireImmediately: true,
-    );
+    ref.listenManual(runTimeProvider.select((state) => state != null), (
+      prev,
+      next,
+    ) {
+      if (next != isStart) {
+        isStart = next;
+        updateController();
+      }
+    }, fireImmediately: true);
   }
 
   @override
@@ -67,13 +64,9 @@ class _StartButtonState extends ConsumerState<StartButton>
   void handleSwitchStart() {
     isStart = !isStart;
     updateController();
-    debouncer.call(
-      FunctionTag.updateStatus,
-      () {
-        globalState.appController.updateStatus(isStart);
-      },
-      duration: commonDuration,
-    );
+    debouncer.call(FunctionTag.updateStatus, () {
+      globalState.appController.updateStatus(isStart);
+    }, duration: commonDuration);
   }
 
   void updateController() {
@@ -107,107 +100,33 @@ class _StartButtonState extends ConsumerState<StartButton>
 
     final colorScheme = Theme.of(context).colorScheme;
     final activeColor = Colors.green.shade600.withValues(alpha: 0.9);
-    final inactiveColor = colorScheme.secondaryContainer.withValues(alpha: 0.85);
+    final inactiveColor = colorScheme.secondaryContainer.withValues(
+      alpha: 0.85,
+    );
 
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
+    return GestureDetector(
+      onTapDown: _onTapDown,
+      onTapUp: _onTapUp,
+      onTapCancel: _onTapCancel,
       child: AnimatedBuilder(
         animation: Listenable.merge([_controller, _pressController]),
-        builder: (_, child) => Transform.scale(
-            scale: _scaleAnimation.value,
-            child: SizedBox(
-              width: double.infinity,
-              height: 56,
-              child: GestureDetector(
-                onTapDown: _onTapDown,
-                onTapUp: _onTapUp,
-                onTapCancel: _onTapCancel,
-                child: FilledButton(
-                  onPressed: handleSwitchStart,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: isStart ? activeColor : inactiveColor,
-                    foregroundColor: isStart
-                        ? Colors.white
-                        : colorScheme.onSecondaryContainer,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: isStart ? 4 : 0,
-                  ),
-                  child: Center(
-                    child: AnimatedSize(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeOutCubic,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          AnimatedIcon(
-                            icon: AnimatedIcons.play_pause,
-                            progress: _animation,
-                            size: 36,
-                            color: isStart
-                                ? Colors.white
-                                : colorScheme.onSecondaryContainer,
-                          ),
-                          if (child != null) ...[
-                            const SizedBox(width: 12),
-                            AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 300),
-                              switchInCurve: Curves.easeOutCubic,
-                              switchOutCurve: Curves.easeInCubic,
-                              transitionBuilder: (childWidget, animation) {
-                                final offsetAnimation = Tween<Offset>(
-                                  begin: const Offset(0, 0.3),
-                                  end: Offset.zero,
-                                ).animate(CurvedAnimation(
-                                  parent: animation,
-                                  curve: Curves.easeOutCubic,
-                                ));
-
-                                return SlideTransition(
-                                  position: offsetAnimation,
-                                  child: FadeTransition(
-                                    opacity: animation,
-                                    child: childWidget,
-                                  ),
-                                );
-                              },
-                              layoutBuilder: (currentChild, previousChildren) => Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    ...previousChildren,
-                                    if (currentChild != null) currentChild,
-                                  ],
-                                ),
-                              child: child,
-                            ),
-                          ],
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+        builder: (_, __) => Transform.scale(
+          scale: _scaleAnimation.value,
+          child: FloatingActionButton(
+            heroTag: null,
+            tooltip: isStart ? appLocalizations.stop : appLocalizations.start,
+            onPressed: handleSwitchStart,
+            backgroundColor: isStart ? activeColor : inactiveColor,
+            foregroundColor:
+                isStart ? Colors.white : colorScheme.onSecondaryContainer,
+            elevation: isStart ? 4 : 0,
+            child: AnimatedIcon(
+              icon: AnimatedIcons.play_pause,
+              progress: _animation,
+              size: 28,
+              color: isStart ? Colors.white : colorScheme.onSecondaryContainer,
             ),
           ),
-        child: Consumer(
-          builder: (_, ref, __) {
-            final runTime = ref.watch(runTimeProvider);
-            if (runTime != null) {
-              final text = utils.getTimeText(runTime);
-              return Text(
-                text,
-                key: ValueKey('time_$text'),
-                style: context.textTheme.titleMedium?.toSoftBold.copyWith(
-                  color: Colors.white,
-                ),
-              );
-            } else {
-              return const SizedBox.shrink(
-                key: ValueKey('empty'),
-              );
-            }
-          },
         ),
       ),
     );
