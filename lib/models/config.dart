@@ -75,6 +75,7 @@ class AppSettingProps with _$AppSettingProps {
     @Default(defaultTestUrl) String testUrl,
     @Default(true) bool isAnimateToPage,
     @Default(false) bool autoCheckUpdate,
+    @Default(true) bool enableNotifications,
     @Default(false) bool showLabel,
     @Default(false) bool disclaimerAccepted,
     @Default(false) bool minimizeOnExit,

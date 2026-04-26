@@ -33,6 +33,7 @@ mixin _$AppSettingProps {
   String get testUrl => throw _privateConstructorUsedError;
   bool get isAnimateToPage => throw _privateConstructorUsedError;
   bool get autoCheckUpdate => throw _privateConstructorUsedError;
+  bool get enableNotifications => throw _privateConstructorUsedError;
   bool get showLabel => throw _privateConstructorUsedError;
   bool get disclaimerAccepted => throw _privateConstructorUsedError;
   bool get minimizeOnExit => throw _privateConstructorUsedError;
@@ -71,6 +72,7 @@ abstract class $AppSettingPropsCopyWith<$Res> {
       String testUrl,
       bool isAnimateToPage,
       bool autoCheckUpdate,
+      bool enableNotifications,
       bool showLabel,
       bool disclaimerAccepted,
       bool minimizeOnExit,
@@ -107,6 +109,7 @@ class _$AppSettingPropsCopyWithImpl<$Res, $Val extends AppSettingProps>
     Object? testUrl = null,
     Object? isAnimateToPage = null,
     Object? autoCheckUpdate = null,
+    Object? enableNotifications = null,
     Object? showLabel = null,
     Object? disclaimerAccepted = null,
     Object? minimizeOnExit = null,
@@ -160,6 +163,10 @@ class _$AppSettingPropsCopyWithImpl<$Res, $Val extends AppSettingProps>
       autoCheckUpdate: null == autoCheckUpdate
           ? _value.autoCheckUpdate
           : autoCheckUpdate // ignore: cast_nullable_to_non_nullable
+              as bool,
+      enableNotifications: null == enableNotifications
+          ? _value.enableNotifications
+          : enableNotifications // ignore: cast_nullable_to_non_nullable
               as bool,
       showLabel: null == showLabel
           ? _value.showLabel
@@ -218,6 +225,7 @@ abstract class _$$AppSettingPropsImplCopyWith<$Res>
       String testUrl,
       bool isAnimateToPage,
       bool autoCheckUpdate,
+      bool enableNotifications,
       bool showLabel,
       bool disclaimerAccepted,
       bool minimizeOnExit,
@@ -252,6 +260,7 @@ class __$$AppSettingPropsImplCopyWithImpl<$Res>
     Object? testUrl = null,
     Object? isAnimateToPage = null,
     Object? autoCheckUpdate = null,
+    Object? enableNotifications = null,
     Object? showLabel = null,
     Object? disclaimerAccepted = null,
     Object? minimizeOnExit = null,
@@ -306,6 +315,10 @@ class __$$AppSettingPropsImplCopyWithImpl<$Res>
           ? _value.autoCheckUpdate
           : autoCheckUpdate // ignore: cast_nullable_to_non_nullable
               as bool,
+      enableNotifications: null == enableNotifications
+          ? _value.enableNotifications
+          : enableNotifications // ignore: cast_nullable_to_non_nullable
+              as bool,
       showLabel: null == showLabel
           ? _value.showLabel
           : showLabel // ignore: cast_nullable_to_non_nullable
@@ -358,6 +371,7 @@ class _$AppSettingPropsImpl implements _AppSettingProps {
       this.testUrl = defaultTestUrl,
       this.isAnimateToPage = true,
       this.autoCheckUpdate = false,
+      this.enableNotifications = true,
       this.showLabel = false,
       this.disclaimerAccepted = false,
       this.minimizeOnExit = false,
@@ -412,6 +426,9 @@ class _$AppSettingPropsImpl implements _AppSettingProps {
   final bool autoCheckUpdate;
   @override
   @JsonKey()
+  final bool enableNotifications;
+  @override
+  @JsonKey()
   final bool showLabel;
   @override
   @JsonKey()
@@ -437,7 +454,7 @@ class _$AppSettingPropsImpl implements _AppSettingProps {
 
   @override
   String toString() {
-    return 'AppSettingProps(locale: $locale, dashboardWidgets: $dashboardWidgets, onlyStatisticsProxy: $onlyStatisticsProxy, autoLaunch: $autoLaunch, silentLaunch: $silentLaunch, autoRun: $autoRun, openLogs: $openLogs, closeConnections: $closeConnections, testUrl: $testUrl, isAnimateToPage: $isAnimateToPage, autoCheckUpdate: $autoCheckUpdate, showLabel: $showLabel, disclaimerAccepted: $disclaimerAccepted, minimizeOnExit: $minimizeOnExit, hidden: $hidden, developerMode: $developerMode, overrideProviderSettings: $overrideProviderSettings, overrideNetworkSettings: $overrideNetworkSettings, recoveryStrategy: $recoveryStrategy)';
+    return 'AppSettingProps(locale: $locale, dashboardWidgets: $dashboardWidgets, onlyStatisticsProxy: $onlyStatisticsProxy, autoLaunch: $autoLaunch, silentLaunch: $silentLaunch, autoRun: $autoRun, openLogs: $openLogs, closeConnections: $closeConnections, testUrl: $testUrl, isAnimateToPage: $isAnimateToPage, autoCheckUpdate: $autoCheckUpdate, enableNotifications: $enableNotifications, showLabel: $showLabel, disclaimerAccepted: $disclaimerAccepted, minimizeOnExit: $minimizeOnExit, hidden: $hidden, developerMode: $developerMode, overrideProviderSettings: $overrideProviderSettings, overrideNetworkSettings: $overrideNetworkSettings, recoveryStrategy: $recoveryStrategy)';
   }
 
   @override
@@ -464,6 +481,8 @@ class _$AppSettingPropsImpl implements _AppSettingProps {
                 other.isAnimateToPage == isAnimateToPage) &&
             (identical(other.autoCheckUpdate, autoCheckUpdate) ||
                 other.autoCheckUpdate == autoCheckUpdate) &&
+            (identical(other.enableNotifications, enableNotifications) ||
+                other.enableNotifications == enableNotifications) &&
             (identical(other.showLabel, showLabel) ||
                 other.showLabel == showLabel) &&
             (identical(other.disclaimerAccepted, disclaimerAccepted) ||
@@ -498,6 +517,7 @@ class _$AppSettingPropsImpl implements _AppSettingProps {
         testUrl,
         isAnimateToPage,
         autoCheckUpdate,
+        enableNotifications,
         showLabel,
         disclaimerAccepted,
         minimizeOnExit,
@@ -539,6 +559,7 @@ abstract class _AppSettingProps implements AppSettingProps {
       final String testUrl,
       final bool isAnimateToPage,
       final bool autoCheckUpdate,
+      final bool enableNotifications,
       final bool showLabel,
       final bool disclaimerAccepted,
       final bool minimizeOnExit,
@@ -574,6 +595,8 @@ abstract class _AppSettingProps implements AppSettingProps {
   bool get isAnimateToPage;
   @override
   bool get autoCheckUpdate;
+  @override
+  bool get enableNotifications;
   @override
   bool get showLabel;
   @override

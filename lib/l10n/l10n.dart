@@ -494,6 +494,26 @@ class AppLocalizations {
     );
   }
 
+  /// `Software notifications`
+  String get enableNotifications {
+    return Intl.message(
+      'Software notifications',
+      name: 'enableNotifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allow the app to send status and subscription notifications`
+  String get enableNotificationsDesc {
+    return Intl.message(
+      'Allow the app to send status and subscription notifications',
+      name: 'enableNotificationsDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `AccessControl`
   String get accessControl {
     return Intl.message(

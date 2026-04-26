@@ -58,6 +58,8 @@
   "logcatDesc": "無効化するとログエントリを非表示",
   "autoCheckUpdate": "自動更新チェック",
   "autoCheckUpdateDesc": "起動時に更新を自動チェック",
+  "enableNotifications": "ソフトウェア通知",
+  "enableNotificationsDesc": "ステータスとサブスクリプション通知の送信を許可",
   "accessControl": "アクセス制御",
   "accessControlDesc": "アプリケーションのプロキシアクセスを設定",
   "application": "アプリケーション設定",

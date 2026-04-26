@@ -419,6 +419,31 @@ class AutoCheckUpdateItem extends ConsumerWidget {
   }
 }
 
+class NotificationsItem extends ConsumerWidget {
+  const NotificationsItem({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final enableNotifications = ref.watch(
+      appSettingProvider.select((state) => state.enableNotifications),
+    );
+    return ListItem.switchItem(
+      title: Text(appLocalizations.enableNotifications),
+      subtitle: Text(appLocalizations.enableNotificationsDesc),
+      delegate: SwitchDelegate(
+        value: enableNotifications,
+        onChanged: (value) {
+          ref.read(appSettingProvider.notifier).updateState(
+                (state) => state.copyWith(
+                  enableNotifications: value,
+                ),
+              );
+        },
+      ),
+    );
+  }
+}
+
 class ApplicationSettingView extends StatelessWidget {
   const ApplicationSettingView({super.key});
 
@@ -442,6 +467,7 @@ class ApplicationSettingView extends StatelessWidget {
       ],
       AnimateTabItem(),
       OpenLogsItem(),
+      NotificationsItem(),
       CloseConnectionsItem(),
       AutoCheckUpdateItem(),
       if (system.isDesktop) ...[

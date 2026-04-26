@@ -58,6 +58,8 @@
   "logcatDesc": "Вести журнал событий приложения",
   "autoCheckUpdate": "Автопроверка обновлений",
   "autoCheckUpdateDesc": "Проверять обновления при запуске",
+  "enableNotifications": "Уведомления приложения",
+  "enableNotificationsDesc": "Разрешить приложению отправлять уведомления о статусе и подписке",
   "accessControl": "Контроль доступа",
   "accessControlDesc": "Управление доступом приложений к прокси",
   "application": "Настройки приложения",

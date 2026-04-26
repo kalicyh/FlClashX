@@ -20,6 +20,13 @@ import 'common/common.dart';
 import 'models/core.dart' as core_models show Action;
 import 'models/models.dart';
 
+Future<void> showAppNotification(String message) async {
+  if (!globalState.config.appSetting.enableNotifications) {
+    return;
+  }
+  await app?.tip(message);
+}
+
 Future<void> main() async {
   globalState.isService = false;
   WidgetsFlutterBinding.ensureInitialized();
@@ -132,7 +139,7 @@ Future<void> _service(List<String> flags) async {
         debugPrint("=== TileService onStart called ===");
         try {
           commonPrint.log("TileService: Showing start notification");
-          unawaited(app?.tip(appLocalizations.startVpn));
+          unawaited(showAppNotification(appLocalizations.startVpn));
           
           // Initialize GeoIP/GeoSite only if profile enables it (geodata-mode == true)
           try {
@@ -168,7 +175,7 @@ Future<void> _service(List<String> flags) async {
           commonPrint.log("TileService: currentProfileId=$profileId");
           if (profileId == null) {
             commonPrint.log("TileService: No profile selected, aborting");
-            unawaited(app?.tip("No profile selected"));
+            unawaited(showAppNotification("No profile selected"));
             return;
           }
           commonPrint.log("TileService: Getting setup params");
@@ -190,7 +197,7 @@ Future<void> _service(List<String> flags) async {
           
           if (res.isNotEmpty) {
             commonPrint.log("TileService: Start failed with error: $res");
-            unawaited(app?.tip("Start failed: $res"));
+            unawaited(showAppNotification("Start failed: $res"));
             try {
               await vpn?.stop();
             } catch (e) {
@@ -218,7 +225,7 @@ Future<void> _service(List<String> flags) async {
           commonPrint.log("=== TileService onStart ERROR ===");
           commonPrint.log("Error: $e");
           commonPrint.log("StackTrace: $stackTrace");
-          unawaited(app?.tip("Start error: $e"));
+          unawaited(showAppNotification("Start error: $e"));
           try {
             await vpn?.stop();
           } catch (stopError) {
@@ -229,7 +236,7 @@ Future<void> _service(List<String> flags) async {
       },
       onStop: () async {
         try {
-          unawaited(app?.tip(appLocalizations.stopVpn));
+          unawaited(showAppNotification(appLocalizations.stopVpn));
           clashLibHandler.stopListener();
         } catch (e) {
           debugPrint("Tile stop listener error: $e");

@@ -116,6 +116,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "autoCheckUpdateDesc": MessageLookupByLibrary.simpleMessage(
       "Auto check for updates when the app starts",
     ),
+    "enableNotifications": MessageLookupByLibrary.simpleMessage(
+      "Software notifications",
+    ),
+    "enableNotificationsDesc": MessageLookupByLibrary.simpleMessage(
+      "Allow the app to send status and subscription notifications",
+    ),
     "autoCloseConnections": MessageLookupByLibrary.simpleMessage(
       "Auto close connections",
     ),

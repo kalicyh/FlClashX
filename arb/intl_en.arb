@@ -58,6 +58,8 @@
   "logcatDesc": "Disabling will hide the log entry",
   "autoCheckUpdate": "Auto check updates",
   "autoCheckUpdateDesc": "Auto check for updates when the app starts",
+  "enableNotifications": "Software notifications",
+  "enableNotificationsDesc": "Allow the app to send status and subscription notifications",
   "accessControl": "AccessControl",
   "accessControlDesc": "Configure application access proxy",
   "application": "Application Settings",
