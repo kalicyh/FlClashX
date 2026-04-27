@@ -5,6 +5,8 @@ import 'package:flclashx/state.dart';
 import 'package:flclashx/views/config/dns.dart';
 import 'package:flclashx/views/config/general.dart';
 import 'package:flclashx/views/config/network.dart';
+import 'package:flclashx/views/config/rules.dart';
+import 'package:flclashx/views/profiles/scripts.dart';
 import 'package:flclashx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,32 +50,53 @@ class _ConfigViewState extends State<ConfigView> {
         leading: const Icon(Icons.dns),
         delegate: OpenDelegate(
           title: "DNS",
-          action: Consumer(builder: (_, ref, __) => IconButton(
-              onPressed: () async {
-                final res = await globalState.showMessage(
-                  title: appLocalizations.reset,
-                  message: TextSpan(
-                    text: appLocalizations.resetTip,
-                  ),
-                );
-                if (res != true) {
-                  return;
-                }
-                ref.read(patchClashConfigProvider.notifier).updateState(
-                      (state) => state.copyWith(
-                        dns: defaultDns,
-                      ),
-                    );
-              },
-              tooltip: appLocalizations.reset,
-              icon: const Icon(
-                Icons.replay,
-              ),
-            )),
+          action: Consumer(
+              builder: (_, ref, __) => IconButton(
+                    onPressed: () async {
+                      final res = await globalState.showMessage(
+                        title: appLocalizations.reset,
+                        message: TextSpan(
+                          text: appLocalizations.resetTip,
+                        ),
+                      );
+                      if (res != true) {
+                        return;
+                      }
+                      ref.read(patchClashConfigProvider.notifier).updateState(
+                            (state) => state.copyWith(
+                              dns: defaultDns,
+                            ),
+                          );
+                    },
+                    tooltip: appLocalizations.reset,
+                    icon: const Icon(
+                      Icons.replay,
+                    ),
+                  )),
           widget: const DnsListView(),
           blur: false,
         ),
-      )
+      ),
+      ListItem(
+        title: Text(appLocalizations.addedRules),
+        subtitle: Text(appLocalizations.controlGlobalAddedRules),
+        leading: const Icon(Icons.library_books),
+        onTap: () => showExtend(
+          context,
+          props: const ExtendProps(blur: false),
+          builder: (_, __) => const AddedRulesView(),
+        ),
+      ),
+      ListItem(
+        title: Text(appLocalizations.script),
+        subtitle: Text(appLocalizations.overrideScript),
+        leading: const Icon(Icons.rocket, fontWeight: FontWeight.w900),
+        onTap: () => showExtend(
+          context,
+          props: const ExtendProps(blur: false),
+          builder: (_, __) => const ScriptsView(),
+        ),
+      ),
     ];
     return generateListView(
       items

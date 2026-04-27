@@ -239,6 +239,8 @@ mixin _$Profile {
   Map<String, String> get selectedMap => throw _privateConstructorUsedError;
   Set<String> get unfoldSet => throw _privateConstructorUsedError;
   OverrideData get overrideData => throw _privateConstructorUsedError;
+  OverwriteType get overwriteType => throw _privateConstructorUsedError;
+  String? get scriptId => throw _privateConstructorUsedError;
   @JsonKey(includeToJson: false, includeFromJson: false)
   bool get isUpdating => throw _privateConstructorUsedError;
   Map<String, String> get providerHeaders => throw _privateConstructorUsedError;
@@ -269,6 +271,8 @@ abstract class $ProfileCopyWith<$Res> {
       Map<String, String> selectedMap,
       Set<String> unfoldSet,
       OverrideData overrideData,
+      OverwriteType overwriteType,
+      String? scriptId,
       @JsonKey(includeToJson: false, includeFromJson: false) bool isUpdating,
       Map<String, String> providerHeaders});
 
@@ -302,6 +306,8 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
     Object? selectedMap = null,
     Object? unfoldSet = null,
     Object? overrideData = null,
+    Object? overwriteType = null,
+    Object? scriptId = freezed,
     Object? isUpdating = null,
     Object? providerHeaders = null,
   }) {
@@ -350,6 +356,14 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
           ? _value.overrideData
           : overrideData // ignore: cast_nullable_to_non_nullable
               as OverrideData,
+      overwriteType: null == overwriteType
+          ? _value.overwriteType
+          : overwriteType // ignore: cast_nullable_to_non_nullable
+              as OverwriteType,
+      scriptId: freezed == scriptId
+          ? _value.scriptId
+          : scriptId // ignore: cast_nullable_to_non_nullable
+              as String?,
       isUpdating: null == isUpdating
           ? _value.isUpdating
           : isUpdating // ignore: cast_nullable_to_non_nullable
@@ -405,6 +419,8 @@ abstract class _$$ProfileImplCopyWith<$Res> implements $ProfileCopyWith<$Res> {
       Map<String, String> selectedMap,
       Set<String> unfoldSet,
       OverrideData overrideData,
+      OverwriteType overwriteType,
+      String? scriptId,
       @JsonKey(includeToJson: false, includeFromJson: false) bool isUpdating,
       Map<String, String> providerHeaders});
 
@@ -438,6 +454,8 @@ class __$$ProfileImplCopyWithImpl<$Res>
     Object? selectedMap = null,
     Object? unfoldSet = null,
     Object? overrideData = null,
+    Object? overwriteType = null,
+    Object? scriptId = freezed,
     Object? isUpdating = null,
     Object? providerHeaders = null,
   }) {
@@ -486,6 +504,14 @@ class __$$ProfileImplCopyWithImpl<$Res>
           ? _value.overrideData
           : overrideData // ignore: cast_nullable_to_non_nullable
               as OverrideData,
+      overwriteType: null == overwriteType
+          ? _value.overwriteType
+          : overwriteType // ignore: cast_nullable_to_non_nullable
+              as OverwriteType,
+      scriptId: freezed == scriptId
+          ? _value.scriptId
+          : scriptId // ignore: cast_nullable_to_non_nullable
+              as String?,
       isUpdating: null == isUpdating
           ? _value.isUpdating
           : isUpdating // ignore: cast_nullable_to_non_nullable
@@ -513,6 +539,8 @@ class _$ProfileImpl implements _Profile {
       final Map<String, String> selectedMap = const {},
       final Set<String> unfoldSet = const {},
       this.overrideData = const OverrideData(),
+      this.overwriteType = OverwriteType.standard,
+      this.scriptId,
       @JsonKey(includeToJson: false, includeFromJson: false)
       this.isUpdating = false,
       final Map<String, String> providerHeaders = const {}})
@@ -563,6 +591,11 @@ class _$ProfileImpl implements _Profile {
   @JsonKey()
   final OverrideData overrideData;
   @override
+  @JsonKey()
+  final OverwriteType overwriteType;
+  @override
+  final String? scriptId;
+  @override
   @JsonKey(includeToJson: false, includeFromJson: false)
   final bool isUpdating;
   final Map<String, String> _providerHeaders;
@@ -576,7 +609,7 @@ class _$ProfileImpl implements _Profile {
 
   @override
   String toString() {
-    return 'Profile(id: $id, label: $label, currentGroupName: $currentGroupName, url: $url, lastUpdateDate: $lastUpdateDate, autoUpdateDuration: $autoUpdateDuration, subscriptionInfo: $subscriptionInfo, autoUpdate: $autoUpdate, selectedMap: $selectedMap, unfoldSet: $unfoldSet, overrideData: $overrideData, isUpdating: $isUpdating, providerHeaders: $providerHeaders)';
+    return 'Profile(id: $id, label: $label, currentGroupName: $currentGroupName, url: $url, lastUpdateDate: $lastUpdateDate, autoUpdateDuration: $autoUpdateDuration, subscriptionInfo: $subscriptionInfo, autoUpdate: $autoUpdate, selectedMap: $selectedMap, unfoldSet: $unfoldSet, overrideData: $overrideData, overwriteType: $overwriteType, scriptId: $scriptId, isUpdating: $isUpdating, providerHeaders: $providerHeaders)';
   }
 
   @override
@@ -603,6 +636,10 @@ class _$ProfileImpl implements _Profile {
                 .equals(other._unfoldSet, _unfoldSet) &&
             (identical(other.overrideData, overrideData) ||
                 other.overrideData == overrideData) &&
+            (identical(other.overwriteType, overwriteType) ||
+                other.overwriteType == overwriteType) &&
+            (identical(other.scriptId, scriptId) ||
+                other.scriptId == scriptId) &&
             (identical(other.isUpdating, isUpdating) ||
                 other.isUpdating == isUpdating) &&
             const DeepCollectionEquality()
@@ -624,6 +661,8 @@ class _$ProfileImpl implements _Profile {
       const DeepCollectionEquality().hash(_selectedMap),
       const DeepCollectionEquality().hash(_unfoldSet),
       overrideData,
+      overwriteType,
+      scriptId,
       isUpdating,
       const DeepCollectionEquality().hash(_providerHeaders));
 
@@ -656,6 +695,8 @@ abstract class _Profile implements Profile {
       final Map<String, String> selectedMap,
       final Set<String> unfoldSet,
       final OverrideData overrideData,
+      final OverwriteType overwriteType,
+      final String? scriptId,
       @JsonKey(includeToJson: false, includeFromJson: false)
       final bool isUpdating,
       final Map<String, String> providerHeaders}) = _$ProfileImpl;
@@ -684,6 +725,10 @@ abstract class _Profile implements Profile {
   Set<String> get unfoldSet;
   @override
   OverrideData get overrideData;
+  @override
+  OverwriteType get overwriteType;
+  @override
+  String? get scriptId;
   @override
   @JsonKey(includeToJson: false, includeFromJson: false)
   bool get isUpdating;

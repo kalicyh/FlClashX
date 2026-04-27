@@ -44,13 +44,13 @@ enum GroupType {
   Relay;
 
   static GroupType parseProfileType(String type) => switch (type) {
-      "url-test" => URLTest,
-      "select" => Selector,
-      "fallback" => Fallback,
-      "load-balance" => LoadBalance,
-      "relay" => Relay,
-      String() => throw UnimplementedError(),
-    };
+        "url-test" => URLTest,
+        "select" => Selector,
+        "fallback" => Fallback,
+        "load-balance" => LoadBalance,
+        "relay" => Relay,
+        String() => throw UnimplementedError(),
+      };
 }
 
 enum GroupName { GLOBAL, Proxy, Auto, Fallback }
@@ -62,7 +62,8 @@ extension GroupTypeExtension on GroupType {
       )
       .toList();
 
-  bool get isComputedSelected => [GroupType.URLTest, GroupType.Fallback].contains(this);
+  bool get isComputedSelected =>
+      [GroupType.URLTest, GroupType.Fallback].contains(this);
 
   static GroupType? getGroupType(String value) {
     final index = GroupTypeExtension.valueList.indexOf(value);
@@ -207,13 +208,13 @@ enum KeyboardModifier {
 
 extension KeyboardModifierExt on KeyboardModifier {
   HotKeyModifier toHotKeyModifier() => switch (this) {
-      KeyboardModifier.alt => HotKeyModifier.alt,
-      KeyboardModifier.capsLock => HotKeyModifier.capsLock,
-      KeyboardModifier.control => HotKeyModifier.control,
-      KeyboardModifier.fn => HotKeyModifier.fn,
-      KeyboardModifier.meta => HotKeyModifier.meta,
-      KeyboardModifier.shift => HotKeyModifier.shift,
-    };
+        KeyboardModifier.alt => HotKeyModifier.alt,
+        KeyboardModifier.capsLock => HotKeyModifier.capsLock,
+        KeyboardModifier.control => HotKeyModifier.control,
+        KeyboardModifier.fn => HotKeyModifier.fn,
+        KeyboardModifier.meta => HotKeyModifier.meta,
+        KeyboardModifier.shift => HotKeyModifier.shift,
+      };
 }
 
 enum HotAction {
@@ -520,6 +521,11 @@ extension RuleActionExt on RuleAction {
 enum OverrideRuleType {
   override,
   added,
+}
+
+enum OverwriteType {
+  standard,
+  script,
 }
 
 enum RuleTarget {

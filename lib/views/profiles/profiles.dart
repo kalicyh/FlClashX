@@ -14,7 +14,6 @@ import 'package:flclashx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import 'add_profile.dart';
 
@@ -280,77 +279,57 @@ class _ProfileItemState extends State<ProfileItem> {
   }
 
   List<Widget> _buildUrlProfileInfo(BuildContext context) {
-    final subscriptionInfo = widget.profile.subscriptionInfo;
-
-    if (subscriptionInfo == null) {
-      return [
-        Text(
-          widget.profile.lastUpdateDate?.lastUpdateTimeDesc ?? "",
-          style: context.textTheme.labelMedium?.toLight,
-        ),
-      ];
-    }
-
+    final subscriptionInfo =
+        widget.profile.subscriptionInfo ?? const SubscriptionInfo();
     final isUnlimited = subscriptionInfo.total == 0;
-
-    final expireDate = subscriptionInfo.expire > 0
-        ? DateFormat('dd.MM.yyyy').format(
-            DateTime.fromMillisecondsSinceEpoch(subscriptionInfo.expire * 1000))
-        : "N/A";
+    final usedTrafficValue =
+        subscriptionInfo.upload + subscriptionInfo.download;
+    final progress = isUnlimited
+        ? 0.0
+        : (usedTrafficValue / subscriptionInfo.total).clamp(0.0, 1.0);
+    final totalTraffic = TrafficValue(value: subscriptionInfo.total);
+    final usedTraffic = TrafficValue(value: usedTrafficValue);
+    final trafficText = isUnlimited
+        ? appLocalizations.noTrafficInfo
+        : '${usedTraffic.showValue} ${usedTraffic.showUnit} / ${totalTraffic.showValue} ${totalTraffic.showUnit}';
+    final expireText = subscriptionInfo.expire > 0
+        ? DateTime.fromMillisecondsSinceEpoch(subscriptionInfo.expire * 1000)
+            .show
+        : appLocalizations.noExpireInfo;
+    final updateText = widget.profile.lastUpdateDate?.lastUpdateTimeDesc ??
+        appLocalizations.just;
 
     return [
       const SizedBox(height: 4),
-      if (!isUnlimited)
-        Builder(builder: (context) {
-          final totalTraffic = TrafficValue(value: subscriptionInfo.total);
-          final usedTrafficValue =
-              subscriptionInfo.upload + subscriptionInfo.download;
-          final usedTraffic = TrafficValue(value: usedTrafficValue);
-
-          var progress = 0.0;
-          if (subscriptionInfo.total > 0) {
-            progress = usedTrafficValue / subscriptionInfo.total;
-          }
-          progress = progress.clamp(0.0, 1.0);
-
-          Color progressColor = Colors.green;
-          if (progress > 0.9) {
-            progressColor = Colors.red;
-          } else if (progress > 0.7) {
-            progressColor = Colors.orange;
-          }
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${appLocalizations.traffic} ${usedTraffic.showValue} ${usedTraffic.showUnit} / ${totalTraffic.showValue} ${totalTraffic.showUnit}',
-                style: context.textTheme.bodySmall,
-              ),
-              const SizedBox(height: 6),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: LinearProgressIndicator(
-                  value: progress,
-                  minHeight: 6,
-                  backgroundColor:
-                      Theme.of(context).colorScheme.surfaceContainerHighest,
-                  valueColor: AlwaysStoppedAnimation<Color>(progressColor),
-                ),
-              ),
-            ],
-          );
-        }),
+      ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: LinearProgressIndicator(
+          value: progress,
+          minHeight: 6,
+          backgroundColor:
+              Theme.of(context).colorScheme.surfaceContainerHighest,
+          valueColor: AlwaysStoppedAnimation<Color>(
+            switch (progress) {
+              > 0.9 => Colors.red,
+              > 0.7 => Colors.orange,
+              _ => Colors.green,
+            },
+          ),
+        ),
+      ),
       const SizedBox(height: 6),
       Text(
-        expireDate != "N/A"
-            ? '${appLocalizations.expiresOn} $expireDate'
-            : appLocalizations.subscriptionUnlimited,
+        '$trafficText · $expireText',
         style: context.textTheme.bodySmall,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
       const SizedBox(height: 4),
       Text(
-        '${appLocalizations.updated} ${widget.profile.lastUpdateDate?.lastUpdateTimeDesc ?? ""}',
+        updateText,
         style: context.textTheme.labelMedium?.toLight,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
     ];
   }
@@ -456,21 +435,23 @@ class _ProfileItemState extends State<ProfileItem> {
                                   onPressed: updateProfile,
                                 ),
                               ],
-                              if (system.isMobile && !_isTV)
-                                PopupMenuItemData(
-                                  icon: Icons.tv_outlined,
-                                  label: appLocalizations.sendToTv,
-                                  onPressed: () {
-                                    BaseNavigator.push(
-                                        context,
-                                        SendToTvPage(
-                                            profileUrl: widget.profile.url));
-                                  },
-                                ),
                               PopupMenuItemData(
                                 icon: Icons.emergency_outlined,
                                 label: appLocalizations.more,
                                 subItems: [
+                                  if (system.isMobile && !_isTV)
+                                    PopupMenuItemData(
+                                      icon: Icons.tv_outlined,
+                                      label: appLocalizations.sendToTv,
+                                      onPressed: () {
+                                        BaseNavigator.push(
+                                          context,
+                                          SendToTvPage(
+                                            profileUrl: widget.profile.url,
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   if (widget.profile
                                               .providerHeaders['support-url'] !=
                                           null &&

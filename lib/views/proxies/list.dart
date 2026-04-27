@@ -272,13 +272,22 @@ class _ProxiesListViewState extends State<ProxiesListView> {
   void _scrollToGroupSelected(String groupName) {
     final currentInitOffset = _getGroupOffset(groupName);
     final currentGroups = globalState.appController.getCurrentGroups();
-    final proxies = currentGroups.getGroup(groupName)?.all;
+    final group = currentGroups.getGroup(groupName);
+    final query = globalState.appState.proxiesQuery.toLowerCase();
+    final proxies = group == null
+        ? <Proxy>[]
+        : globalState.appController.getSortProxies(
+            group.all
+                .where((item) => item.name.toLowerCase().contains(query))
+                .toList(),
+            group.testUrl,
+          );
     _jumpTo(
       currentInitOffset +
           8 +
           getScrollToSelectedOffset(
             groupName: groupName,
-            proxies: proxies ?? [],
+            proxies: proxies,
           ),
     );
   }

@@ -29,7 +29,7 @@ class _ProxiesViewState extends ConsumerState<ProxiesView> with PageMixin {
     final groups = ref.read(currentGroupsStateProvider).value;
     final allProxies = <Proxy>[];
     final seenNames = <String>{};
-    
+
     for (final group in groups) {
       for (final proxy in group.all) {
         if (!seenNames.contains(proxy.name)) {
@@ -38,14 +38,17 @@ class _ProxiesViewState extends ConsumerState<ProxiesView> with PageMixin {
         }
       }
     }
-    
+
     if (allProxies.isNotEmpty) {
       await delayTest(allProxies, null);
     }
   }
 
   @override
-  List<Widget> get actions => [
+  List<Widget> get actions {
+    final themeProps = ref.read(themeSettingProvider);
+    return [
+      if (themeProps.showProxyModeButton)
         Consumer(
           builder: (_, ref, child) {
             final globalModeEnabled = ref.watch(globalModeEnabledProvider);
@@ -54,24 +57,25 @@ class _ProxiesViewState extends ConsumerState<ProxiesView> with PageMixin {
           },
           child: const _ModeSelectorAction(),
         ),
-        const SearchOrderMarker(),
-        if (_isTab)
-          IconButton(
-            onPressed: () {
-              _proxiesTabKey.currentState?.scrollToGroupSelected();
-            },
-            icon: const Icon(
-              Icons.adjust,
-              weight: 1,
-            ),
+      if (_isTab)
+        IconButton(
+          onPressed: () {
+            _proxiesTabKey.currentState?.scrollToGroupSelected();
+          },
+          icon: const Icon(
+            Icons.adjust,
+            weight: 1,
           ),
-        if (!_isTab) ...[
+        ),
+      if (!_isTab) ...[
+        if (themeProps.showProxyDelayButton)
           IconButton(
             onPressed: _pingAllGroups,
             icon: const Icon(
               Icons.network_ping,
             ),
           ),
+        if (themeProps.showProxyExpandButton)
           Consumer(
             builder: (_, ref, __) {
               final unfoldSet = ref.watch(unfoldSetProvider);
@@ -80,8 +84,8 @@ class _ProxiesViewState extends ConsumerState<ProxiesView> with PageMixin {
                   (state) => state.value.map((e) => e.name).toList(),
                 ),
               );
-              final allExpanded = groupNames.isNotEmpty &&
-                  groupNames.every(unfoldSet.contains);
+              final allExpanded =
+                  groupNames.isNotEmpty && groupNames.every(unfoldSet.contains);
               return IconButton(
                 onPressed: () {
                   if (allExpanded) {
@@ -97,63 +101,65 @@ class _ProxiesViewState extends ConsumerState<ProxiesView> with PageMixin {
               );
             },
           ),
-        ],
-        CommonPopupBox(
-          targetBuilder: (open) => IconButton(
+      ],
+      const SearchOrderMarker(),
+      CommonPopupBox(
+        targetBuilder: (open) => IconButton(
+          onPressed: () {
+            open(
+              offset: const Offset(0, 20),
+            );
+          },
+          icon: const Icon(
+            Icons.more_vert,
+          ),
+        ),
+        popup: CommonPopupMenu(
+          items: [
+            PopupMenuItemData(
+              icon: Icons.tune,
+              label: appLocalizations.settings,
               onPressed: () {
-                open(
-                  offset: const Offset(0, 20),
+                showSheet(
+                  context: context,
+                  props: const SheetProps(
+                    isScrollControlled: true,
+                  ),
+                  builder: (_, type) => AdaptiveSheetScaffold(
+                    type: type,
+                    body: const ProxiesSetting(),
+                    title: appLocalizations.settings,
+                  ),
                 );
               },
-              icon: const Icon(
-                Icons.more_vert,
-              ),
             ),
-          popup: CommonPopupMenu(
-            items: [
+            if (_hasProviders)
               PopupMenuItemData(
-                icon: Icons.tune,
-                label: appLocalizations.settings,
+                icon: Icons.poll_outlined,
+                label: appLocalizations.providers,
                 onPressed: () {
-                  showSheet(
-                    context: context,
-                    props: const SheetProps(
-                      isScrollControlled: true,
-                    ),
-                    builder: (_, type) => AdaptiveSheetScaffold(
-                        type: type,
-                        body: const ProxiesSetting(),
-                        title: appLocalizations.settings,
-                      ),
+                  showExtend(
+                    context,
+                    builder: (_, type) => const ProvidersView(),
                   );
                 },
               ),
-              if (_hasProviders)
-                PopupMenuItemData(
-                  icon: Icons.poll_outlined,
-                  label: appLocalizations.providers,
-                  onPressed: () {
-                    showExtend(
-                      context,
-                      builder: (_, type) => const ProvidersView(),
-                    );
-                  },
-                ),
-              if (!_isTab)
-                PopupMenuItemData(
-                  icon: Icons.style_outlined,
-                  label: appLocalizations.iconConfiguration,
-                  onPressed: () {
-                    showExtend(
-                      context,
-                      builder: (_, type) => const _IconConfigView(),
-                    );
-                  },
-                ),
-            ],
-          ),
-        )
-      ];
+            if (!_isTab)
+              PopupMenuItemData(
+                icon: Icons.style_outlined,
+                label: appLocalizations.iconConfiguration,
+                onPressed: () {
+                  showExtend(
+                    context,
+                    builder: (_, type) => const _IconConfigView(),
+                  );
+                },
+              ),
+          ],
+        ),
+      )
+    ];
+  }
 
   @override
   Null Function(String value) get onSearch => (value) {
@@ -199,6 +205,20 @@ class _ProxiesViewState extends ConsumerState<ProxiesView> with PageMixin {
               ref.read(proxiesQueryProvider.notifier).value = "";
             }
           });
+        }
+      },
+    );
+    ref.listenManual(
+      themeSettingProvider.select(
+        (state) => VM3(
+          a: state.showProxyModeButton,
+          b: state.showProxyDelayButton,
+          c: state.showProxyExpandButton,
+        ),
+      ),
+      (prev, next) {
+        if (prev != next) {
+          initPageState();
         }
       },
     );

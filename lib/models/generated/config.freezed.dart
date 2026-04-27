@@ -1142,6 +1142,7 @@ mixin _$VpnProps {
   bool get systemProxy => throw _privateConstructorUsedError;
   bool get ipv6 => throw _privateConstructorUsedError;
   bool get allowBypass => throw _privateConstructorUsedError;
+  bool get dnsHijacking => throw _privateConstructorUsedError;
   AccessControl get accessControl => throw _privateConstructorUsedError;
 
   /// Serializes this VpnProps to a JSON map.
@@ -1164,6 +1165,7 @@ abstract class $VpnPropsCopyWith<$Res> {
       bool systemProxy,
       bool ipv6,
       bool allowBypass,
+      bool dnsHijacking,
       AccessControl accessControl});
 
   $AccessControlCopyWith<$Res> get accessControl;
@@ -1188,6 +1190,7 @@ class _$VpnPropsCopyWithImpl<$Res, $Val extends VpnProps>
     Object? systemProxy = null,
     Object? ipv6 = null,
     Object? allowBypass = null,
+    Object? dnsHijacking = null,
     Object? accessControl = null,
   }) {
     return _then(_value.copyWith(
@@ -1206,6 +1209,10 @@ class _$VpnPropsCopyWithImpl<$Res, $Val extends VpnProps>
       allowBypass: null == allowBypass
           ? _value.allowBypass
           : allowBypass // ignore: cast_nullable_to_non_nullable
+              as bool,
+      dnsHijacking: null == dnsHijacking
+          ? _value.dnsHijacking
+          : dnsHijacking // ignore: cast_nullable_to_non_nullable
               as bool,
       accessControl: null == accessControl
           ? _value.accessControl
@@ -1238,6 +1245,7 @@ abstract class _$$VpnPropsImplCopyWith<$Res>
       bool systemProxy,
       bool ipv6,
       bool allowBypass,
+      bool dnsHijacking,
       AccessControl accessControl});
 
   @override
@@ -1261,6 +1269,7 @@ class __$$VpnPropsImplCopyWithImpl<$Res>
     Object? systemProxy = null,
     Object? ipv6 = null,
     Object? allowBypass = null,
+    Object? dnsHijacking = null,
     Object? accessControl = null,
   }) {
     return _then(_$VpnPropsImpl(
@@ -1280,6 +1289,10 @@ class __$$VpnPropsImplCopyWithImpl<$Res>
           ? _value.allowBypass
           : allowBypass // ignore: cast_nullable_to_non_nullable
               as bool,
+      dnsHijacking: null == dnsHijacking
+          ? _value.dnsHijacking
+          : dnsHijacking // ignore: cast_nullable_to_non_nullable
+              as bool,
       accessControl: null == accessControl
           ? _value.accessControl
           : accessControl // ignore: cast_nullable_to_non_nullable
@@ -1296,6 +1309,7 @@ class _$VpnPropsImpl implements _VpnProps {
       this.systemProxy = false,
       this.ipv6 = true,
       this.allowBypass = false,
+      this.dnsHijacking = false,
       this.accessControl = defaultAccessControl});
 
   factory _$VpnPropsImpl.fromJson(Map<String, dynamic> json) =>
@@ -1315,11 +1329,14 @@ class _$VpnPropsImpl implements _VpnProps {
   final bool allowBypass;
   @override
   @JsonKey()
+  final bool dnsHijacking;
+  @override
+  @JsonKey()
   final AccessControl accessControl;
 
   @override
   String toString() {
-    return 'VpnProps(enable: $enable, systemProxy: $systemProxy, ipv6: $ipv6, allowBypass: $allowBypass, accessControl: $accessControl)';
+    return 'VpnProps(enable: $enable, systemProxy: $systemProxy, ipv6: $ipv6, allowBypass: $allowBypass, dnsHijacking: $dnsHijacking, accessControl: $accessControl)';
   }
 
   @override
@@ -1333,14 +1350,16 @@ class _$VpnPropsImpl implements _VpnProps {
             (identical(other.ipv6, ipv6) || other.ipv6 == ipv6) &&
             (identical(other.allowBypass, allowBypass) ||
                 other.allowBypass == allowBypass) &&
+            (identical(other.dnsHijacking, dnsHijacking) ||
+                other.dnsHijacking == dnsHijacking) &&
             (identical(other.accessControl, accessControl) ||
                 other.accessControl == accessControl));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, enable, systemProxy, ipv6, allowBypass, accessControl);
+  int get hashCode => Object.hash(runtimeType, enable, systemProxy, ipv6,
+      allowBypass, dnsHijacking, accessControl);
 
   /// Create a copy of VpnProps
   /// with the given fields replaced by the non-null parameter values.
@@ -1364,6 +1383,7 @@ abstract class _VpnProps implements VpnProps {
       final bool systemProxy,
       final bool ipv6,
       final bool allowBypass,
+      final bool dnsHijacking,
       final AccessControl accessControl}) = _$VpnPropsImpl;
 
   factory _VpnProps.fromJson(Map<String, dynamic> json) =
@@ -1377,6 +1397,8 @@ abstract class _VpnProps implements VpnProps {
   bool get ipv6;
   @override
   bool get allowBypass;
+  @override
+  bool get dnsHijacking;
   @override
   AccessControl get accessControl;
 
@@ -2071,6 +2093,9 @@ mixin _$ThemeProps {
   ThemeMode get themeMode => throw _privateConstructorUsedError;
   DynamicSchemeVariant get schemeVariant => throw _privateConstructorUsedError;
   bool get pureBlack => throw _privateConstructorUsedError;
+  bool get showProxyModeButton => throw _privateConstructorUsedError;
+  bool get showProxyDelayButton => throw _privateConstructorUsedError;
+  bool get showProxyExpandButton => throw _privateConstructorUsedError;
   TextScale get textScale => throw _privateConstructorUsedError;
 
   /// Serializes this ThemeProps to a JSON map.
@@ -2095,6 +2120,9 @@ abstract class $ThemePropsCopyWith<$Res> {
       ThemeMode themeMode,
       DynamicSchemeVariant schemeVariant,
       bool pureBlack,
+      bool showProxyModeButton,
+      bool showProxyDelayButton,
+      bool showProxyExpandButton,
       TextScale textScale});
 
   $TextScaleCopyWith<$Res> get textScale;
@@ -2120,6 +2148,9 @@ class _$ThemePropsCopyWithImpl<$Res, $Val extends ThemeProps>
     Object? themeMode = null,
     Object? schemeVariant = null,
     Object? pureBlack = null,
+    Object? showProxyModeButton = null,
+    Object? showProxyDelayButton = null,
+    Object? showProxyExpandButton = null,
     Object? textScale = null,
   }) {
     return _then(_value.copyWith(
@@ -2142,6 +2173,18 @@ class _$ThemePropsCopyWithImpl<$Res, $Val extends ThemeProps>
       pureBlack: null == pureBlack
           ? _value.pureBlack
           : pureBlack // ignore: cast_nullable_to_non_nullable
+              as bool,
+      showProxyModeButton: null == showProxyModeButton
+          ? _value.showProxyModeButton
+          : showProxyModeButton // ignore: cast_nullable_to_non_nullable
+              as bool,
+      showProxyDelayButton: null == showProxyDelayButton
+          ? _value.showProxyDelayButton
+          : showProxyDelayButton // ignore: cast_nullable_to_non_nullable
+              as bool,
+      showProxyExpandButton: null == showProxyExpandButton
+          ? _value.showProxyExpandButton
+          : showProxyExpandButton // ignore: cast_nullable_to_non_nullable
               as bool,
       textScale: null == textScale
           ? _value.textScale
@@ -2175,6 +2218,9 @@ abstract class _$$ThemePropsImplCopyWith<$Res>
       ThemeMode themeMode,
       DynamicSchemeVariant schemeVariant,
       bool pureBlack,
+      bool showProxyModeButton,
+      bool showProxyDelayButton,
+      bool showProxyExpandButton,
       TextScale textScale});
 
   @override
@@ -2199,6 +2245,9 @@ class __$$ThemePropsImplCopyWithImpl<$Res>
     Object? themeMode = null,
     Object? schemeVariant = null,
     Object? pureBlack = null,
+    Object? showProxyModeButton = null,
+    Object? showProxyDelayButton = null,
+    Object? showProxyExpandButton = null,
     Object? textScale = null,
   }) {
     return _then(_$ThemePropsImpl(
@@ -2222,6 +2271,18 @@ class __$$ThemePropsImplCopyWithImpl<$Res>
           ? _value.pureBlack
           : pureBlack // ignore: cast_nullable_to_non_nullable
               as bool,
+      showProxyModeButton: null == showProxyModeButton
+          ? _value.showProxyModeButton
+          : showProxyModeButton // ignore: cast_nullable_to_non_nullable
+              as bool,
+      showProxyDelayButton: null == showProxyDelayButton
+          ? _value.showProxyDelayButton
+          : showProxyDelayButton // ignore: cast_nullable_to_non_nullable
+              as bool,
+      showProxyExpandButton: null == showProxyExpandButton
+          ? _value.showProxyExpandButton
+          : showProxyExpandButton // ignore: cast_nullable_to_non_nullable
+              as bool,
       textScale: null == textScale
           ? _value.textScale
           : textScale // ignore: cast_nullable_to_non_nullable
@@ -2239,6 +2300,9 @@ class _$ThemePropsImpl implements _ThemeProps {
       this.themeMode = ThemeMode.dark,
       this.schemeVariant = DynamicSchemeVariant.content,
       this.pureBlack = false,
+      this.showProxyModeButton = false,
+      this.showProxyDelayButton = false,
+      this.showProxyExpandButton = false,
       this.textScale = const TextScale()})
       : _primaryColors = primaryColors;
 
@@ -2267,11 +2331,20 @@ class _$ThemePropsImpl implements _ThemeProps {
   final bool pureBlack;
   @override
   @JsonKey()
+  final bool showProxyModeButton;
+  @override
+  @JsonKey()
+  final bool showProxyDelayButton;
+  @override
+  @JsonKey()
+  final bool showProxyExpandButton;
+  @override
+  @JsonKey()
   final TextScale textScale;
 
   @override
   String toString() {
-    return 'ThemeProps(primaryColor: $primaryColor, primaryColors: $primaryColors, themeMode: $themeMode, schemeVariant: $schemeVariant, pureBlack: $pureBlack, textScale: $textScale)';
+    return 'ThemeProps(primaryColor: $primaryColor, primaryColors: $primaryColors, themeMode: $themeMode, schemeVariant: $schemeVariant, pureBlack: $pureBlack, showProxyModeButton: $showProxyModeButton, showProxyDelayButton: $showProxyDelayButton, showProxyExpandButton: $showProxyExpandButton, textScale: $textScale)';
   }
 
   @override
@@ -2289,6 +2362,12 @@ class _$ThemePropsImpl implements _ThemeProps {
                 other.schemeVariant == schemeVariant) &&
             (identical(other.pureBlack, pureBlack) ||
                 other.pureBlack == pureBlack) &&
+            (identical(other.showProxyModeButton, showProxyModeButton) ||
+                other.showProxyModeButton == showProxyModeButton) &&
+            (identical(other.showProxyDelayButton, showProxyDelayButton) ||
+                other.showProxyDelayButton == showProxyDelayButton) &&
+            (identical(other.showProxyExpandButton, showProxyExpandButton) ||
+                other.showProxyExpandButton == showProxyExpandButton) &&
             (identical(other.textScale, textScale) ||
                 other.textScale == textScale));
   }
@@ -2302,6 +2381,9 @@ class _$ThemePropsImpl implements _ThemeProps {
       themeMode,
       schemeVariant,
       pureBlack,
+      showProxyModeButton,
+      showProxyDelayButton,
+      showProxyExpandButton,
       textScale);
 
   /// Create a copy of ThemeProps
@@ -2327,6 +2409,9 @@ abstract class _ThemeProps implements ThemeProps {
       final ThemeMode themeMode,
       final DynamicSchemeVariant schemeVariant,
       final bool pureBlack,
+      final bool showProxyModeButton,
+      final bool showProxyDelayButton,
+      final bool showProxyExpandButton,
       final TextScale textScale}) = _$ThemePropsImpl;
 
   factory _ThemeProps.fromJson(Map<String, dynamic> json) =
@@ -2342,6 +2427,12 @@ abstract class _ThemeProps implements ThemeProps {
   DynamicSchemeVariant get schemeVariant;
   @override
   bool get pureBlack;
+  @override
+  bool get showProxyModeButton;
+  @override
+  bool get showProxyDelayButton;
+  @override
+  bool get showProxyExpandButton;
   @override
   TextScale get textScale;
 

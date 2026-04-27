@@ -87,7 +87,7 @@ class FlClashXVpnService : VpnService(), BaseServiceInterface {
                     "IPv6 is not supported."
                 )
             }
-            addDnsServer(options.dnsServerAddress)
+            addDnsServer(if (options.dnsHijacking) "0.0.0.0" else options.dnsServerAddress)
             setMtu(9000)
             // Profile-level tun.include-package / tun.exclude-package take
             // precedence over the app-level access control. Android's

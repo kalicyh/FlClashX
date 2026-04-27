@@ -140,6 +140,7 @@ class VpnProps with _$VpnProps {
     @Default(false) bool systemProxy,
     @Default(true) bool ipv6,
     @Default(false) bool allowBypass,
+    @Default(false) bool dnsHijacking,
     @Default(defaultAccessControl) AccessControl accessControl,
   }) = _VpnProps;
 
@@ -196,6 +197,9 @@ class ThemeProps with _$ThemeProps {
     @Default(ThemeMode.dark) ThemeMode themeMode,
     @Default(DynamicSchemeVariant.content) DynamicSchemeVariant schemeVariant,
     @Default(false) bool pureBlack,
+    @Default(false) bool showProxyModeButton,
+    @Default(false) bool showProxyDelayButton,
+    @Default(false) bool showProxyExpandButton,
     @Default(TextScale()) TextScale textScale,
   }) = _ThemeProps;
 
@@ -236,6 +240,14 @@ extension ScriptPropsExt on ScriptProps {
 
   Script? get currentScript {
     final index = scripts.indexWhere((script) => script.id == currentId);
+    if (index != -1) {
+      return scripts[index];
+    }
+    return null;
+  }
+
+  Script? getScript(String? id) {
+    final index = scripts.indexWhere((script) => script.id == id);
     if (index != -1) {
       return scripts[index];
     }

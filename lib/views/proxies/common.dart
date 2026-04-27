@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flclashx/clash/clash.dart';
 import 'package:flclashx/common/common.dart';
 import 'package:flclashx/enum/enum.dart';
@@ -43,7 +45,8 @@ Future<void> proxyDelayTest(Proxy proxy, [String? testUrl]) async {
         url,
         state.proxyName,
       ),
-    );
+    )
+    ..addSortNum();
 }
 
 Future<void> delayTest(List<Proxy> proxies, [String? testUrl]) async {
@@ -72,14 +75,14 @@ Future<void> delayTest(List<Proxy> proxies, [String? testUrl]) async {
           url,
           name,
         ),
-      );
+      )
+      ..addSortNum();
   }).toList();
 
   final batchesDelayProxies = delayProxies.batch(100);
   for (final batchDelayProxies in batchesDelayProxies) {
     await Future.wait(batchDelayProxies);
   }
-  appController.addSortNum();
 }
 
 double getScrollToSelectedOffset({
@@ -95,5 +98,6 @@ double getScrollToSelectedOffset({
   );
   final selectedIndex = findSelectedIndex != -1 ? findSelectedIndex : 0;
   final rows = (selectedIndex / columns).floor();
-  return rows * getItemHeight(proxyCardType) + (rows - 1) * 8;
+  final rowGap = proxyCardType == ProxyCardType.oneline ? 4 : 8;
+  return rows * getItemHeight(proxyCardType) + max(rows - 1, 0) * rowGap;
 }

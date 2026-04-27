@@ -112,6 +112,7 @@ _$AndroidVpnOptionsImpl _$$AndroidVpnOptionsImplFromJson(
           .toList(),
       ipv4Address: json['ipv4Address'] as String,
       ipv6Address: json['ipv6Address'] as String,
+      dnsHijacking: json['dnsHijacking'] as bool? ?? false,
       routeAddress: (json['routeAddress'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -130,6 +131,7 @@ Map<String, dynamic> _$$AndroidVpnOptionsImplToJson(
       'bypassDomain': instance.bypassDomain,
       'ipv4Address': instance.ipv4Address,
       'ipv6Address': instance.ipv6Address,
+      'dnsHijacking': instance.dnsHijacking,
       'routeAddress': instance.routeAddress,
       'dnsServerAddress': instance.dnsServerAddress,
     };

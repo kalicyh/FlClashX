@@ -1409,18 +1409,21 @@ class AppController {
                 testUrl: testUrl,
               ),
             );
-            if (aDelay == null && bDelay == null) {
-              return 0;
+            final rankCompare =
+                _delaySortRank(aDelay).compareTo(_delaySortRank(bDelay));
+            if (rankCompare != 0) {
+              return rankCompare;
             }
-            if (aDelay == null || aDelay == -1) {
-              return 1;
-            }
-            if (bDelay == null || bDelay == -1) {
-              return -1;
-            }
-            return aDelay.compareTo(bDelay);
+            return (aDelay ?? 0).compareTo(bDelay ?? 0);
           },
         );
+
+  int _delaySortRank(int? delay) => switch (delay) {
+        null => 3,
+        0 => 2,
+        -1 => 1,
+        _ => 0,
+      };
 
   List<Proxy> getSortProxies(List<Proxy> proxies, [String? url]) =>
       switch (_ref.read(proxiesStyleSettingProvider).sortType) {

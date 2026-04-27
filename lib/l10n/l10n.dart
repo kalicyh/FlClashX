@@ -1929,6 +1929,16 @@ class AppLocalizations {
     return Intl.message('Standard', name: 'standard', desc: '', args: []);
   }
 
+  /// `Standard mode uses rule overrides and added rules.`
+  String get standardModeDesc {
+    return Intl.message(
+      'Standard mode uses rule overrides and added rules.',
+      name: 'standardModeDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Loose`
   String get loose {
     return Intl.message('Loose', name: 'loose', desc: '', args: []);
@@ -3199,6 +3209,76 @@ class AppLocalizations {
     return Intl.message('Script', name: 'script', desc: '', args: []);
   }
 
+  /// `Script mode runs the selected JavaScript override for this profile.`
+  String get scriptModeDesc {
+    return Intl.message(
+      'Script mode runs the selected JavaScript override for this profile.',
+      name: 'scriptModeDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Override mode`
+  String get overrideMode {
+    return Intl.message(
+      'Override mode',
+      name: 'overrideMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Added rules`
+  String get addedRules {
+    return Intl.message(
+      'Added rules',
+      name: 'addedRules',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manage global added rules`
+  String get controlGlobalAddedRules {
+    return Intl.message(
+      'Manage global added rules',
+      name: 'controlGlobalAddedRules',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Override script`
+  String get overrideScript {
+    return Intl.message(
+      'Override script',
+      name: 'overrideScript',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Configure scripts`
+  String get goToConfigureScript {
+    return Intl.message(
+      'Configure scripts',
+      name: 'goToConfigureScript',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `DNS hijacking`
+  String get dnsHijacking {
+    return Intl.message(
+      'DNS hijacking',
+      name: 'dnsHijacking',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Color`
   String get color {
     return Intl.message('Color', name: 'color', desc: '', args: []);
@@ -3469,6 +3549,26 @@ class AppLocalizations {
     );
   }
 
+  /// `No traffic information`
+  String get noTrafficInfo {
+    return Intl.message(
+      'No traffic information',
+      name: 'noTrafficInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No expiration information`
+  String get noExpireInfo {
+    return Intl.message(
+      'No expiration information',
+      name: 'noExpireInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Updated`
   String get updated {
     return Intl.message('Updated', name: 'updated', desc: '', args: []);
@@ -3479,6 +3579,36 @@ class AppLocalizations {
     return Intl.message(
       'Select Profile',
       name: 'selectProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Proxy mode button`
+  String get proxyModeButton {
+    return Intl.message(
+      'Proxy mode button',
+      name: 'proxyModeButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Proxy delay test button`
+  String get proxyDelayButton {
+    return Intl.message(
+      'Proxy delay test button',
+      name: 'proxyDelayButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Proxy expand all button`
+  String get proxyExpandButton {
+    return Intl.message(
+      'Proxy expand all button',
+      name: 'proxyExpandButton',
       desc: '',
       args: [],
     );

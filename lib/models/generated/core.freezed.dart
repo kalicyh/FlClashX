@@ -899,6 +899,7 @@ mixin _$AndroidVpnOptions {
   List<String> get bypassDomain => throw _privateConstructorUsedError;
   String get ipv4Address => throw _privateConstructorUsedError;
   String get ipv6Address => throw _privateConstructorUsedError;
+  bool get dnsHijacking => throw _privateConstructorUsedError;
   List<String> get routeAddress => throw _privateConstructorUsedError;
   String get dnsServerAddress => throw _privateConstructorUsedError;
 
@@ -927,6 +928,7 @@ abstract class $AndroidVpnOptionsCopyWith<$Res> {
       List<String> bypassDomain,
       String ipv4Address,
       String ipv6Address,
+      bool dnsHijacking,
       List<String> routeAddress,
       String dnsServerAddress});
 
@@ -956,6 +958,7 @@ class _$AndroidVpnOptionsCopyWithImpl<$Res, $Val extends AndroidVpnOptions>
     Object? bypassDomain = null,
     Object? ipv4Address = null,
     Object? ipv6Address = null,
+    Object? dnsHijacking = null,
     Object? routeAddress = null,
     Object? dnsServerAddress = null,
   }) {
@@ -992,6 +995,10 @@ class _$AndroidVpnOptionsCopyWithImpl<$Res, $Val extends AndroidVpnOptions>
           ? _value.ipv6Address
           : ipv6Address // ignore: cast_nullable_to_non_nullable
               as String,
+      dnsHijacking: null == dnsHijacking
+          ? _value.dnsHijacking
+          : dnsHijacking // ignore: cast_nullable_to_non_nullable
+              as bool,
       routeAddress: null == routeAddress
           ? _value.routeAddress
           : routeAddress // ignore: cast_nullable_to_non_nullable
@@ -1035,6 +1042,7 @@ abstract class _$$AndroidVpnOptionsImplCopyWith<$Res>
       List<String> bypassDomain,
       String ipv4Address,
       String ipv6Address,
+      bool dnsHijacking,
       List<String> routeAddress,
       String dnsServerAddress});
 
@@ -1063,6 +1071,7 @@ class __$$AndroidVpnOptionsImplCopyWithImpl<$Res>
     Object? bypassDomain = null,
     Object? ipv4Address = null,
     Object? ipv6Address = null,
+    Object? dnsHijacking = null,
     Object? routeAddress = null,
     Object? dnsServerAddress = null,
   }) {
@@ -1099,6 +1108,10 @@ class __$$AndroidVpnOptionsImplCopyWithImpl<$Res>
           ? _value.ipv6Address
           : ipv6Address // ignore: cast_nullable_to_non_nullable
               as String,
+      dnsHijacking: null == dnsHijacking
+          ? _value.dnsHijacking
+          : dnsHijacking // ignore: cast_nullable_to_non_nullable
+              as bool,
       routeAddress: null == routeAddress
           ? _value._routeAddress
           : routeAddress // ignore: cast_nullable_to_non_nullable
@@ -1123,6 +1136,7 @@ class _$AndroidVpnOptionsImpl implements _AndroidVpnOptions {
       required final List<String> bypassDomain,
       required this.ipv4Address,
       required this.ipv6Address,
+      this.dnsHijacking = false,
       final List<String> routeAddress = const [],
       required this.dnsServerAddress})
       : _bypassDomain = bypassDomain,
@@ -1153,6 +1167,9 @@ class _$AndroidVpnOptionsImpl implements _AndroidVpnOptions {
   final String ipv4Address;
   @override
   final String ipv6Address;
+  @override
+  @JsonKey()
+  final bool dnsHijacking;
   final List<String> _routeAddress;
   @override
   @JsonKey()
@@ -1167,7 +1184,7 @@ class _$AndroidVpnOptionsImpl implements _AndroidVpnOptions {
 
   @override
   String toString() {
-    return 'AndroidVpnOptions(enable: $enable, port: $port, accessControl: $accessControl, allowBypass: $allowBypass, systemProxy: $systemProxy, bypassDomain: $bypassDomain, ipv4Address: $ipv4Address, ipv6Address: $ipv6Address, routeAddress: $routeAddress, dnsServerAddress: $dnsServerAddress)';
+    return 'AndroidVpnOptions(enable: $enable, port: $port, accessControl: $accessControl, allowBypass: $allowBypass, systemProxy: $systemProxy, bypassDomain: $bypassDomain, ipv4Address: $ipv4Address, ipv6Address: $ipv6Address, dnsHijacking: $dnsHijacking, routeAddress: $routeAddress, dnsServerAddress: $dnsServerAddress)';
   }
 
   @override
@@ -1189,6 +1206,8 @@ class _$AndroidVpnOptionsImpl implements _AndroidVpnOptions {
                 other.ipv4Address == ipv4Address) &&
             (identical(other.ipv6Address, ipv6Address) ||
                 other.ipv6Address == ipv6Address) &&
+            (identical(other.dnsHijacking, dnsHijacking) ||
+                other.dnsHijacking == dnsHijacking) &&
             const DeepCollectionEquality()
                 .equals(other._routeAddress, _routeAddress) &&
             (identical(other.dnsServerAddress, dnsServerAddress) ||
@@ -1207,6 +1226,7 @@ class _$AndroidVpnOptionsImpl implements _AndroidVpnOptions {
       const DeepCollectionEquality().hash(_bypassDomain),
       ipv4Address,
       ipv6Address,
+      dnsHijacking,
       const DeepCollectionEquality().hash(_routeAddress),
       dnsServerAddress);
 
@@ -1237,6 +1257,7 @@ abstract class _AndroidVpnOptions implements AndroidVpnOptions {
       required final List<String> bypassDomain,
       required final String ipv4Address,
       required final String ipv6Address,
+      final bool dnsHijacking,
       final List<String> routeAddress,
       required final String dnsServerAddress}) = _$AndroidVpnOptionsImpl;
 
@@ -1259,6 +1280,8 @@ abstract class _AndroidVpnOptions implements AndroidVpnOptions {
   String get ipv4Address;
   @override
   String get ipv6Address;
+  @override
+  bool get dnsHijacking;
   @override
   List<String> get routeAddress;
   @override

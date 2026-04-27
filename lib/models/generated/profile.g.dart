@@ -51,6 +51,10 @@ _$ProfileImpl _$$ProfileImplFromJson(Map<String, dynamic> json) =>
       overrideData: json['overrideData'] == null
           ? const OverrideData()
           : OverrideData.fromJson(json['overrideData'] as Map<String, dynamic>),
+      overwriteType:
+          $enumDecodeNullable(_$OverwriteTypeEnumMap, json['overwriteType']) ??
+              OverwriteType.standard,
+      scriptId: json['scriptId'] as String?,
       providerHeaders: (json['providerHeaders'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(k, e as String),
           ) ??
@@ -70,6 +74,8 @@ Map<String, dynamic> _$$ProfileImplToJson(_$ProfileImpl instance) =>
       'selectedMap': instance.selectedMap,
       'unfoldSet': instance.unfoldSet.toList(),
       'overrideData': instance.overrideData,
+      'overwriteType': _$OverwriteTypeEnumMap[instance.overwriteType]!,
+      'scriptId': instance.scriptId,
       'providerHeaders': instance.providerHeaders,
     };
 
@@ -111,4 +117,9 @@ Map<String, dynamic> _$$OverrideRuleImplToJson(_$OverrideRuleImpl instance) =>
 const _$OverrideRuleTypeEnumMap = {
   OverrideRuleType.override: 'override',
   OverrideRuleType.added: 'added',
+};
+
+const _$OverwriteTypeEnumMap = {
+  OverwriteType.standard: 'standard',
+  OverwriteType.script: 'script',
 };

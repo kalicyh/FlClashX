@@ -149,6 +149,7 @@ _$VpnPropsImpl _$$VpnPropsImplFromJson(Map<String, dynamic> json) =>
       systemProxy: json['systemProxy'] as bool? ?? false,
       ipv6: json['ipv6'] as bool? ?? true,
       allowBypass: json['allowBypass'] as bool? ?? false,
+      dnsHijacking: json['dnsHijacking'] as bool? ?? false,
       accessControl: json['accessControl'] == null
           ? defaultAccessControl
           : AccessControl.fromJson(
@@ -161,6 +162,7 @@ Map<String, dynamic> _$$VpnPropsImplToJson(_$VpnPropsImpl instance) =>
       'systemProxy': instance.systemProxy,
       'ipv6': instance.ipv6,
       'allowBypass': instance.allowBypass,
+      'dnsHijacking': instance.dnsHijacking,
       'accessControl': instance.accessControl,
     };
 
@@ -274,6 +276,9 @@ _$ThemePropsImpl _$$ThemePropsImplFromJson(Map<String, dynamic> json) =>
               _$DynamicSchemeVariantEnumMap, json['schemeVariant']) ??
           DynamicSchemeVariant.content,
       pureBlack: json['pureBlack'] as bool? ?? false,
+      showProxyModeButton: json['showProxyModeButton'] as bool? ?? false,
+      showProxyDelayButton: json['showProxyDelayButton'] as bool? ?? false,
+      showProxyExpandButton: json['showProxyExpandButton'] as bool? ?? false,
       textScale: json['textScale'] == null
           ? const TextScale()
           : TextScale.fromJson(json['textScale'] as Map<String, dynamic>),
@@ -286,6 +291,9 @@ Map<String, dynamic> _$$ThemePropsImplToJson(_$ThemePropsImpl instance) =>
       'themeMode': _$ThemeModeEnumMap[instance.themeMode]!,
       'schemeVariant': _$DynamicSchemeVariantEnumMap[instance.schemeVariant]!,
       'pureBlack': instance.pureBlack,
+      'showProxyModeButton': instance.showProxyModeButton,
+      'showProxyDelayButton': instance.showProxyDelayButton,
+      'showProxyExpandButton': instance.showProxyExpandButton,
       'textScale': instance.textScale,
     };
 
