@@ -21,10 +21,46 @@ import 'models/core.dart' as core_models show Action;
 import 'models/models.dart';
 
 Future<void> showAppNotification(String message) async {
-  if (!globalState.config.appSetting.enableNotifications) {
+  if (!await getNotificationUpdatesEnabled()) {
     return;
   }
   await app?.tip(message);
+}
+
+int _lastNotificationSettingCheck = 0;
+bool? _cachedNotificationUpdatesEnabled;
+
+Future<bool> getNotificationUpdatesEnabled() async {
+  final now = DateTime.now().millisecondsSinceEpoch;
+  if (_cachedNotificationUpdatesEnabled != null &&
+      now - _lastNotificationSettingCheck < 2000) {
+    return _cachedNotificationUpdatesEnabled!;
+  }
+
+  _lastNotificationSettingCheck = now;
+  try {
+    final latestConfig = await preferences.getConfig(reload: true);
+    final latestAppSetting = latestConfig?.appSetting;
+    if (latestAppSetting != null) {
+      globalState.config = globalState.config.copyWith(
+        appSetting: latestAppSetting,
+      );
+      _cachedNotificationUpdatesEnabled = latestAppSetting.enableNotifications;
+      return _cachedNotificationUpdatesEnabled!;
+    }
+  } catch (_) {}
+
+  _cachedNotificationUpdatesEnabled =
+      globalState.config.appSetting.enableNotifications;
+  return _cachedNotificationUpdatesEnabled!;
+}
+
+String getSilentForegroundParams() {
+  return json.encode({
+    "title": "FlClashX",
+    "server": "",
+    "content": "",
+  });
 }
 
 Future<void> main() async {
@@ -255,8 +291,12 @@ Future<void> _service(List<String> flags) async {
 
   // Provide foreground notification params using data from globalState.config
   // This runs in service isolate, so we read from the in-memory config (loaded at service start)
-  vpn?.handleGetStartForegroundParams = () {
+  vpn?.handleGetStartForegroundParams = () async {
     try {
+      if (!await getNotificationUpdatesEnabled()) {
+        return getSilentForegroundParams();
+      }
+
       final traffic = clashLibHandler.getTraffic();
       final profile = globalState.config.currentProfile;
       final profileName = profile?.label ?? profile?.id ?? "FlClashX";
@@ -304,11 +344,7 @@ Future<void> _service(List<String> flags) async {
       });
     } catch (_) {
       // Fallback minimal
-      return json.encode({
-        "title": "FlClashX",
-        "server": "",
-        "content": ""
-      });
+      return getSilentForegroundParams();
     }
   };
 

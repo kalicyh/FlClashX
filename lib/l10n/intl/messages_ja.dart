@@ -87,9 +87,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "autoCheckUpdateDesc": MessageLookupByLibrary.simpleMessage(
       "起動時に更新を自動チェック",
     ),
-    "enableNotifications": MessageLookupByLibrary.simpleMessage("ソフトウェア通知"),
+    "enableNotifications": MessageLookupByLibrary.simpleMessage("通知の更新"),
     "enableNotificationsDesc": MessageLookupByLibrary.simpleMessage(
-      "ステータスとサブスクリプション通知の送信を許可",
+      "オフにすると通知は表示されたまま、内容の更新は停止します",
     ),
     "autoCloseConnections": MessageLookupByLibrary.simpleMessage("接続を自動閉じる"),
     "autoCloseConnectionsDesc": MessageLookupByLibrary.simpleMessage(

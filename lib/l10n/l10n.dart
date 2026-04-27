@@ -494,20 +494,20 @@ class AppLocalizations {
     );
   }
 
-  /// `Software notifications`
+  /// `Notification updates`
   String get enableNotifications {
     return Intl.message(
-      'Software notifications',
+      'Notification updates',
       name: 'enableNotifications',
       desc: '',
       args: [],
     );
   }
 
-  /// `Allow the app to send status and subscription notifications`
+  /// `When disabled, notifications stay visible but their content stops updating`
   String get enableNotificationsDesc {
     return Intl.message(
-      'Allow the app to send status and subscription notifications',
+      'When disabled, notifications stay visible but their content stops updating',
       name: 'enableNotificationsDesc',
       desc: '',
       args: [],

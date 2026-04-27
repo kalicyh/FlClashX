@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flclashx/common/common.dart';
 import 'package:flclashx/models/models.dart';
 import 'package:flclashx/providers/providers.dart';
@@ -63,7 +65,7 @@ class MetainfoWidget extends ConsumerWidget {
             child: const URLFormDialog(),
           );
           if (url != null) {
-            globalState.appController.addProfileFormURL(url);
+            unawaited(globalState.appController.addProfileFormURL(url));
           }
         },
         child: Center(
@@ -85,12 +87,12 @@ class MetainfoWidget extends ConsumerWidget {
       );
     }
 
-    final subscriptionInfo = currentProfile?.subscriptionInfo;
-
-    if (currentProfile == null || subscriptionInfo == null) {
+    if (currentProfile == null) {
       return const SizedBox.shrink();
     }
 
+    final subscriptionInfo =
+        currentProfile.subscriptionInfo ?? const SubscriptionInfo();
     final isUnlimitedTraffic = subscriptionInfo.total == 0;
     final isPerpetual = subscriptionInfo.expire == 0;
     final supportUrl = currentProfile.providerHeaders['support-url'];

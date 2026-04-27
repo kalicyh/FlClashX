@@ -32,8 +32,11 @@ class Preferences {
     return ClashConfig.fromJson(clashConfigMap);
   }
 
-  Future<Config?> getConfig() async {
+  Future<Config?> getConfig({bool reload = false}) async {
     final preferences = await sharedPreferencesCompleter.future;
+    if (reload) {
+      await preferences?.reload();
+    }
     final configString = preferences?.getString(configKey);
     if (configString == null) return null;
     final configMap = json.decode(configString);

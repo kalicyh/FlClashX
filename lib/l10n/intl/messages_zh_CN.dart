@@ -81,9 +81,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "auto": MessageLookupByLibrary.simpleMessage("自动"),
     "autoCheckUpdate": MessageLookupByLibrary.simpleMessage("自动检查更新"),
     "autoCheckUpdateDesc": MessageLookupByLibrary.simpleMessage("应用启动时自动检查更新"),
-    "enableNotifications": MessageLookupByLibrary.simpleMessage("软件通知"),
+    "enableNotifications": MessageLookupByLibrary.simpleMessage("通知更新"),
     "enableNotificationsDesc": MessageLookupByLibrary.simpleMessage(
-      "允许应用发送状态和订阅通知",
+      "关闭后通知仍会保留，但不会继续更新通知内容",
     ),
     "autoCloseConnections": MessageLookupByLibrary.simpleMessage("自动关闭连接"),
     "autoCloseConnectionsDesc": MessageLookupByLibrary.simpleMessage(
