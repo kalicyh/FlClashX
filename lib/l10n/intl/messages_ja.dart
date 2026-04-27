@@ -86,6 +86,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "appDesc": MessageLookupByLibrary.simpleMessage("アプリ関連設定の処理"),
         "application": MessageLookupByLibrary.simpleMessage("アプリケーション設定"),
         "applicationDesc": MessageLookupByLibrary.simpleMessage("標準アプリ設定"),
+        "showAllOptions": MessageLookupByLibrary.simpleMessage("すべてのオプションを表示"),
+        "showAllOptionsDesc":
+            MessageLookupByLibrary.simpleMessage("現在のデバイスタイプで非表示のオプションを表示"),
         "auto": MessageLookupByLibrary.simpleMessage("自動"),
         "autoCheckUpdate": MessageLookupByLibrary.simpleMessage("自動更新チェック"),
         "autoCheckUpdateDesc": MessageLookupByLibrary.simpleMessage(
@@ -163,8 +166,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "copyEnvVar": MessageLookupByLibrary.simpleMessage("環境変数をコピー"),
         "copyLink": MessageLookupByLibrary.simpleMessage("リンクをコピー"),
         "copySuccess": MessageLookupByLibrary.simpleMessage("コピー成功"),
+        "connected": MessageLookupByLibrary.simpleMessage("接続済み"),
+        "connecting": MessageLookupByLibrary.simpleMessage("接続中..."),
         "core": MessageLookupByLibrary.simpleMessage("コア"),
         "coreInfo": MessageLookupByLibrary.simpleMessage("コア情報"),
+        "coreStatus": MessageLookupByLibrary.simpleMessage("コア状態"),
         "country": MessageLookupByLibrary.simpleMessage("国"),
         "crashTest": MessageLookupByLibrary.simpleMessage("クラッシュテスト"),
         "create": MessageLookupByLibrary.simpleMessage("作成"),
@@ -179,6 +185,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
         "defaultSort": MessageLookupByLibrary.simpleMessage("デフォルト順"),
         "defaultText": MessageLookupByLibrary.simpleMessage("デフォルト"),
+        "customUa": MessageLookupByLibrary.simpleMessage("カスタム UA"),
         "delay": MessageLookupByLibrary.simpleMessage("遅延"),
         "delaySort": MessageLookupByLibrary.simpleMessage("遅延順"),
         "delete": MessageLookupByLibrary.simpleMessage("削除"),
@@ -246,6 +253,8 @@ class MessageLookup extends MessageLookupByLibrary {
           "有効化するとパフォーマンスが若干低下します",
         ),
         "fontFamily": MessageLookupByLibrary.simpleMessage("フォントファミリー"),
+        "forceRestartCoreTip":
+            MessageLookupByLibrary.simpleMessage("コアは接続済みです。今すぐ再起動しますか？"),
         "fourColumns": MessageLookupByLibrary.simpleMessage("4列"),
         "fruitSaladScheme": MessageLookupByLibrary.simpleMessage("フルーツサラダ"),
         "general": MessageLookupByLibrary.simpleMessage("一般"),

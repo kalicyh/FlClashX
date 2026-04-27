@@ -48,16 +48,76 @@ class _DashboardViewState extends ConsumerState<DashboardView> with PageMixin {
         builder: (_, isEdit, ___) => builder(isEdit: isEdit),
       );
 
+  Future<void> _handleConnection(CoreStatus coreStatus) async {
+    if (coreStatus == CoreStatus.connecting) {
+      return;
+    }
+    final res = await globalState.showMessage(
+      message: TextSpan(
+        text: appLocalizations.forceRestartCoreTip,
+      ),
+    );
+    if (res != true) {
+      return;
+    }
+    await globalState.appController.restartCore();
+  }
+
+  Widget _buildCoreStatusButton(BuildContext context, WidgetRef ref) {
+    final isInit = ref.watch(initProvider);
+    final coreStatus = isInit ? CoreStatus.connected : CoreStatus.connecting;
+    return Tooltip(
+      message: appLocalizations.coreStatus,
+      child: FadeScaleBox(
+        child: coreStatus == CoreStatus.connected
+            ? IconButton.filled(
+                visualDensity: VisualDensity.compact,
+                iconSize: 20,
+                padding: EdgeInsets.zero,
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.greenAccent,
+                  foregroundColor: switch (Theme.brightnessOf(context)) {
+                    Brightness.light => context.colorScheme.onSurfaceVariant,
+                    Brightness.dark =>
+                      context.colorScheme.onPrimaryFixedVariant,
+                  },
+                ),
+                onPressed: () => _handleConnection(coreStatus),
+                icon: const Icon(Icons.check, fontWeight: FontWeight.w900),
+              )
+            : FilledButton.icon(
+                key: ValueKey(coreStatus),
+                onPressed: () => _handleConnection(coreStatus),
+                style: FilledButton.styleFrom(
+                  visualDensity: VisualDensity.compact,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                ),
+                icon: SizedBox(
+                  height: globalState.measure.bodyMediumHeight,
+                  width: globalState.measure.bodyMediumHeight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 3,
+                      color: context.colorScheme.onPrimary,
+                      backgroundColor: Colors.transparent,
+                    ),
+                  ),
+                ),
+                label: Text(appLocalizations.connecting),
+              ),
+      ),
+    );
+  }
+
   @override
   List<Widget> get actions => [
         _buildIsEdit(
           ({required isEdit}) => isEdit
               ? const SizedBox()
-              : IconButton(
-                  tooltip:
-                      '${appLocalizations.restart} ${appLocalizations.core}',
-                  onPressed: _handleRestartCore,
-                  icon: const Icon(Icons.restart_alt),
+              : Consumer(
+                  builder: (context, ref, _) =>
+                      _buildCoreStatusButton(context, ref),
                 ),
         ),
         _buildIsEdit(
@@ -99,18 +159,6 @@ class _DashboardViewState extends ConsumerState<DashboardView> with PageMixin {
           },
         ),
       ];
-
-  Future<void> _handleRestartCore() async {
-    final res = await globalState.showMessage(
-      message: TextSpan(
-        text: '${appLocalizations.restart} ${appLocalizations.core}?',
-      ),
-    );
-    if (res != true) {
-      return;
-    }
-    await globalState.appController.restartCore();
-  }
 
   void _showAddWidgetsModal() {
     showSheet(

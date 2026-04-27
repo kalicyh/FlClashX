@@ -112,6 +112,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "applicationDesc": MessageLookupByLibrary.simpleMessage(
           "Standard application settings",
         ),
+        "showAllOptions": MessageLookupByLibrary.simpleMessage(
+          "Show all options",
+        ),
+        "showAllOptionsDesc": MessageLookupByLibrary.simpleMessage(
+          "Display options hidden by the current device type",
+        ),
         "auto": MessageLookupByLibrary.simpleMessage("Auto"),
         "autoCheckUpdate": MessageLookupByLibrary.simpleMessage(
           "Auto check updates",
@@ -217,8 +223,11 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
         "copyLink": MessageLookupByLibrary.simpleMessage("Copy link"),
         "copySuccess": MessageLookupByLibrary.simpleMessage("Copy success"),
+        "connected": MessageLookupByLibrary.simpleMessage("Connected"),
+        "connecting": MessageLookupByLibrary.simpleMessage("Connecting..."),
         "core": MessageLookupByLibrary.simpleMessage("Core"),
         "coreInfo": MessageLookupByLibrary.simpleMessage("Core info"),
+        "coreStatus": MessageLookupByLibrary.simpleMessage("Core status"),
         "country": MessageLookupByLibrary.simpleMessage("Country"),
         "crashTest": MessageLookupByLibrary.simpleMessage("Crash test"),
         "create": MessageLookupByLibrary.simpleMessage("Create"),
@@ -236,6 +245,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
         "defaultSort": MessageLookupByLibrary.simpleMessage("Sort by default"),
         "defaultText": MessageLookupByLibrary.simpleMessage("Default"),
+        "customUa": MessageLookupByLibrary.simpleMessage("Custom UA"),
         "delay": MessageLookupByLibrary.simpleMessage("Delay"),
         "delaySort": MessageLookupByLibrary.simpleMessage("Sort by delay"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
@@ -327,6 +337,9 @@ class MessageLookup extends MessageLookupByLibrary {
           "There is a certain performance loss after opening",
         ),
         "fontFamily": MessageLookupByLibrary.simpleMessage("FontFamily"),
+        "forceRestartCoreTip": MessageLookupByLibrary.simpleMessage(
+          "Core is connected. Restart it now?",
+        ),
         "fourColumns": MessageLookupByLibrary.simpleMessage("Four columns"),
         "fruitSaladScheme": MessageLookupByLibrary.simpleMessage("FruitSalad"),
         "general": MessageLookupByLibrary.simpleMessage("General"),

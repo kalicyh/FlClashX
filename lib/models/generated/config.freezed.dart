@@ -1306,7 +1306,7 @@ class __$$VpnPropsImplCopyWithImpl<$Res>
 class _$VpnPropsImpl implements _VpnProps {
   const _$VpnPropsImpl(
       {this.enable = true,
-      this.systemProxy = false,
+      this.systemProxy = true,
       this.ipv6 = true,
       this.allowBypass = false,
       this.dnsHijacking = false,
@@ -1543,7 +1543,7 @@ class __$$NetworkPropsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$NetworkPropsImpl implements _NetworkProps {
   const _$NetworkPropsImpl(
-      {this.systemProxy = false,
+      {this.systemProxy = true,
       final List<String> bypassDomain = defaultBypassDomain,
       this.routeMode = RouteMode.config,
       this.autoSetSystemDns = true})

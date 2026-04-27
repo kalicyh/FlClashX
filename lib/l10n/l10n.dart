@@ -229,6 +229,11 @@ class AppLocalizations {
     return Intl.message('Default', name: 'defaultText', desc: '', args: []);
   }
 
+  /// `Custom UA`
+  String get customUa {
+    return Intl.message('Custom UA', name: 'customUa', desc: '', args: []);
+  }
+
   /// `More`
   String get more {
     return Intl.message('More', name: 'more', desc: '', args: []);
@@ -549,6 +554,26 @@ class AppLocalizations {
     return Intl.message(
       'Standard application settings',
       name: 'applicationDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show all options`
+  String get showAllOptions {
+    return Intl.message(
+      'Show all options',
+      name: 'showAllOptions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Display options hidden by the current device type`
+  String get showAllOptionsDesc {
+    return Intl.message(
+      'Display options hidden by the current device type',
+      name: 'showAllOptionsDesc',
       desc: '',
       args: [],
     );
@@ -1042,6 +1067,32 @@ class AppLocalizations {
   /// `Core`
   String get core {
     return Intl.message('Core', name: 'core', desc: '', args: []);
+  }
+
+  /// `Core status`
+  String get coreStatus {
+    return Intl.message('Core status', name: 'coreStatus', desc: '', args: []);
+  }
+
+  /// `Connecting...`
+  String get connecting {
+    return Intl.message('Connecting...',
+        name: 'connecting', desc: '', args: []);
+  }
+
+  /// `Connected`
+  String get connected {
+    return Intl.message('Connected', name: 'connected', desc: '', args: []);
+  }
+
+  /// `Core is connected. Restart it now?`
+  String get forceRestartCoreTip {
+    return Intl.message(
+      'Core is connected. Restart it now?',
+      name: 'forceRestartCoreTip',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Tab animation`

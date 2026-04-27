@@ -17,12 +17,12 @@ class OpenLogsFolderItem extends ConsumerWidget {
       final homePath = await appPath.homeDirPath;
       final logsPath = join(homePath, 'logs');
       final logsDir = Directory(logsPath);
-      
+
       // Create logs directory if it doesn't exist
       if (!await logsDir.exists()) {
         await logsDir.create(recursive: true);
       }
-      
+
       // Open the folder based on platform
       if (Platform.isWindows) {
         await Process.run('explorer', [logsPath]);
@@ -55,28 +55,28 @@ class ResetAppItem extends ConsumerWidget {
           style: TextStyle(
             color: context.colorScheme.error,
             fontWeight: FontWeight.bold,
-        ),
-      ),
-      leading: Icon(
-        Icons.delete_forever,
-        color: context.colorScheme.error,
-      ),
-      onTap: () async {
-        final res = await globalState.showMessage(
-          title: appLocalizations.clearData,
-          message: TextSpan(
-            text: appLocalizations.clearDataTip,
-            style: TextStyle(
-              color: context.colorScheme.onSurface,
-            ),
           ),
-        );
-        if (res == true) {
-          await globalState.appController.handleClear();
-          system.exit();
-        }
-      },
-    );
+        ),
+        leading: Icon(
+          Icons.delete_forever,
+          color: context.colorScheme.error,
+        ),
+        onTap: () async {
+          final res = await globalState.showMessage(
+            title: appLocalizations.clearData,
+            message: TextSpan(
+              text: appLocalizations.clearDataTip,
+              style: TextStyle(
+                color: context.colorScheme.onSurface,
+              ),
+            ),
+          );
+          if (res == true) {
+            await globalState.appController.handleClear();
+            system.exit();
+          }
+        },
+      );
 }
 
 class OverrideProviderSettingsItem extends ConsumerWidget {
@@ -107,7 +107,10 @@ class OverrideProviderSettingsItem extends ConsumerWidget {
         if (!overrideProviderSettings)
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+            color: Theme.of(context)
+                .colorScheme
+                .surfaceContainerHighest
+                .withValues(alpha: 0.5),
             child: Row(
               children: [
                 Icon(
@@ -203,13 +206,15 @@ class MinimizeItem extends ConsumerWidget {
         subtitle: Text(appLocalizations.minimizeOnExitDesc),
         delegate: SwitchDelegate(
           value: minimizeOnExit,
-          onChanged: isEnabled ? (bool value) {
-            ref.read(appSettingProvider.notifier).updateState(
-                  (state) => state.copyWith(
-                    minimizeOnExit: value,
-                  ),
-                );
-          } : null,
+          onChanged: isEnabled
+              ? (bool value) {
+                  ref.read(appSettingProvider.notifier).updateState(
+                        (state) => state.copyWith(
+                          minimizeOnExit: value,
+                        ),
+                      );
+                }
+              : null,
         ),
       ),
     );
@@ -235,13 +240,15 @@ class AutoLaunchItem extends ConsumerWidget {
         subtitle: Text(appLocalizations.autoLaunchDesc),
         delegate: SwitchDelegate(
           value: autoLaunch,
-          onChanged: isEnabled ? (bool value) {
-            ref.read(appSettingProvider.notifier).updateState(
-                  (state) => state.copyWith(
-                    autoLaunch: value,
-                  ),
-                );
-          } : null,
+          onChanged: isEnabled
+              ? (bool value) {
+                  ref.read(appSettingProvider.notifier).updateState(
+                        (state) => state.copyWith(
+                          autoLaunch: value,
+                        ),
+                      );
+                }
+              : null,
         ),
       ),
     );
@@ -267,13 +274,15 @@ class SilentLaunchItem extends ConsumerWidget {
         subtitle: Text(appLocalizations.silentLaunchDesc),
         delegate: SwitchDelegate(
           value: silentLaunch,
-          onChanged: isEnabled ? (bool value) {
-            ref.read(appSettingProvider.notifier).updateState(
-                  (state) => state.copyWith(
-                    silentLaunch: value,
-                  ),
-                );
-          } : null,
+          onChanged: isEnabled
+              ? (bool value) {
+                  ref.read(appSettingProvider.notifier).updateState(
+                        (state) => state.copyWith(
+                          silentLaunch: value,
+                        ),
+                      );
+                }
+              : null,
         ),
       ),
     );
@@ -299,13 +308,15 @@ class AutoRunItem extends ConsumerWidget {
         subtitle: Text(appLocalizations.autoRunDesc),
         delegate: SwitchDelegate(
           value: autoRun,
-          onChanged: isEnabled ? (bool value) {
-            ref.read(appSettingProvider.notifier).updateState(
-                  (state) => state.copyWith(
-                    autoRun: value,
-                  ),
-                );
-          } : null,
+          onChanged: isEnabled
+              ? (bool value) {
+                  ref.read(appSettingProvider.notifier).updateState(
+                        (state) => state.copyWith(
+                          autoRun: value,
+                        ),
+                      );
+                }
+              : null,
         ),
       ),
     );
@@ -406,13 +417,15 @@ class AutoCheckUpdateItem extends ConsumerWidget {
         subtitle: Text(appLocalizations.autoCheckUpdateDesc),
         delegate: SwitchDelegate(
           value: autoCheckUpdate,
-          onChanged: isEnabled ? (bool value) {
-            ref.read(appSettingProvider.notifier).updateState(
-                  (state) => state.copyWith(
-                    autoCheckUpdate: value,
-                  ),
-                );
-          } : null,
+          onChanged: isEnabled
+              ? (bool value) {
+                  ref.read(appSettingProvider.notifier).updateState(
+                        (state) => state.copyWith(
+                          autoCheckUpdate: value,
+                        ),
+                      );
+                }
+              : null,
         ),
       ),
     );
@@ -444,8 +457,33 @@ class NotificationsItem extends ConsumerWidget {
   }
 }
 
-class ApplicationSettingView extends StatelessWidget {
+class ShowAllOptionsItem extends StatelessWidget {
+  const ShowAllOptionsItem({
+    super.key,
+    required this.onTap,
+  });
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => ListItem(
+        title: Text(appLocalizations.showAllOptions),
+        subtitle: Text(appLocalizations.showAllOptionsDesc),
+        leading: const Icon(Icons.visibility_outlined),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        onTap: onTap,
+      );
+}
+
+class ApplicationSettingView extends StatefulWidget {
   const ApplicationSettingView({super.key});
+
+  @override
+  State<ApplicationSettingView> createState() => _ApplicationSettingViewState();
+}
+
+class _ApplicationSettingViewState extends State<ApplicationSettingView> {
+  bool _showAllOptions = false;
 
   String getLocaleString(Locale? locale) {
     if (locale == null) return appLocalizations.defaultText;
@@ -456,13 +494,21 @@ class ApplicationSettingView extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> items = [
       OverrideProviderSettingsItem(),
+      if (!_showAllOptions)
+        ShowAllOptionsItem(
+          onTap: () {
+            setState(() {
+              _showAllOptions = true;
+            });
+          },
+        ),
       MinimizeItem(),
-      if (system.isDesktop) ...[
+      if (system.isDesktop || _showAllOptions) ...[
         AutoLaunchItem(),
         SilentLaunchItem(),
       ],
       AutoRunItem(),
-      if (Platform.isAndroid) ...[
+      if (Platform.isAndroid || _showAllOptions) ...[
         HiddenItem(),
       ],
       AnimateTabItem(),
@@ -470,7 +516,7 @@ class ApplicationSettingView extends StatelessWidget {
       NotificationsItem(),
       CloseConnectionsItem(),
       AutoCheckUpdateItem(),
-      if (system.isDesktop) ...[
+      if (system.isDesktop || _showAllOptions) ...[
         Padding(
           padding: const EdgeInsets.only(top: 16),
           child: OpenLogsFolderItem(),

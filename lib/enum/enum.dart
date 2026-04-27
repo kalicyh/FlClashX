@@ -538,6 +538,11 @@ enum RecoveryStrategy {
   override,
 }
 
+enum CoreStatus {
+  connecting,
+  connected,
+}
+
 enum CacheTag {
   logs,
   rules,

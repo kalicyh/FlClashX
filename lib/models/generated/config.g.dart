@@ -146,7 +146,7 @@ Map<String, dynamic> _$$WindowPropsImplToJson(_$WindowPropsImpl instance) =>
 _$VpnPropsImpl _$$VpnPropsImplFromJson(Map<String, dynamic> json) =>
     _$VpnPropsImpl(
       enable: json['enable'] as bool? ?? true,
-      systemProxy: json['systemProxy'] as bool? ?? false,
+      systemProxy: json['systemProxy'] as bool? ?? true,
       ipv6: json['ipv6'] as bool? ?? true,
       allowBypass: json['allowBypass'] as bool? ?? false,
       dnsHijacking: json['dnsHijacking'] as bool? ?? false,
@@ -168,7 +168,7 @@ Map<String, dynamic> _$$VpnPropsImplToJson(_$VpnPropsImpl instance) =>
 
 _$NetworkPropsImpl _$$NetworkPropsImplFromJson(Map<String, dynamic> json) =>
     _$NetworkPropsImpl(
-      systemProxy: json['systemProxy'] as bool? ?? false,
+      systemProxy: json['systemProxy'] as bool? ?? true,
       bypassDomain: (json['bypassDomain'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??

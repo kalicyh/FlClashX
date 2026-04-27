@@ -81,6 +81,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "appDesc": MessageLookupByLibrary.simpleMessage("处理应用相关设置"),
         "application": MessageLookupByLibrary.simpleMessage("应用程序设置"),
         "applicationDesc": MessageLookupByLibrary.simpleMessage("标准应用程序设置"),
+        "showAllOptions": MessageLookupByLibrary.simpleMessage("显示所有选项"),
+        "showAllOptionsDesc":
+            MessageLookupByLibrary.simpleMessage("显示当前设备类型隐藏的选项"),
         "auto": MessageLookupByLibrary.simpleMessage("自动"),
         "autoCheckUpdate": MessageLookupByLibrary.simpleMessage("自动检查更新"),
         "autoCheckUpdateDesc":
@@ -149,8 +152,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "copyEnvVar": MessageLookupByLibrary.simpleMessage("复制环境变量"),
         "copyLink": MessageLookupByLibrary.simpleMessage("复制链接"),
         "copySuccess": MessageLookupByLibrary.simpleMessage("复制成功"),
+        "connected": MessageLookupByLibrary.simpleMessage("已连接"),
+        "connecting": MessageLookupByLibrary.simpleMessage("连接中..."),
         "core": MessageLookupByLibrary.simpleMessage("内核"),
         "coreInfo": MessageLookupByLibrary.simpleMessage("内核信息"),
+        "coreStatus": MessageLookupByLibrary.simpleMessage("内核状态"),
         "country": MessageLookupByLibrary.simpleMessage("区域"),
         "crashTest": MessageLookupByLibrary.simpleMessage("崩溃测试"),
         "create": MessageLookupByLibrary.simpleMessage("创建"),
@@ -163,6 +169,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("用于解析DNS服务器"),
         "defaultSort": MessageLookupByLibrary.simpleMessage("按默认排序"),
         "defaultText": MessageLookupByLibrary.simpleMessage("默认"),
+        "customUa": MessageLookupByLibrary.simpleMessage("自定义 UA"),
         "delay": MessageLookupByLibrary.simpleMessage("延迟"),
         "delaySort": MessageLookupByLibrary.simpleMessage("按延迟排序"),
         "delete": MessageLookupByLibrary.simpleMessage("删除"),
@@ -224,6 +231,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "findProcessModeDesc":
             MessageLookupByLibrary.simpleMessage("开启后会有一定性能损耗"),
         "fontFamily": MessageLookupByLibrary.simpleMessage("字体"),
+        "forceRestartCoreTip":
+            MessageLookupByLibrary.simpleMessage("内核已连接，是否立即重启？"),
         "fourColumns": MessageLookupByLibrary.simpleMessage("四列"),
         "fruitSaladScheme": MessageLookupByLibrary.simpleMessage("果缤纷"),
         "general": MessageLookupByLibrary.simpleMessage("常规"),

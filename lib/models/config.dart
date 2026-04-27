@@ -137,7 +137,7 @@ class WindowProps with _$WindowProps {
 class VpnProps with _$VpnProps {
   const factory VpnProps({
     @Default(true) bool enable,
-    @Default(false) bool systemProxy,
+    @Default(true) bool systemProxy,
     @Default(true) bool ipv6,
     @Default(false) bool allowBypass,
     @Default(false) bool dnsHijacking,
@@ -151,7 +151,7 @@ class VpnProps with _$VpnProps {
 @freezed
 class NetworkProps with _$NetworkProps {
   const factory NetworkProps({
-    @Default(false) bool systemProxy,
+    @Default(true) bool systemProxy,
     @Default(defaultBypassDomain) List<String> bypassDomain,
     @Default(RouteMode.config) RouteMode routeMode,
     @Default(true) bool autoSetSystemDns,
