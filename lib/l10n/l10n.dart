@@ -3550,30 +3550,30 @@ class AppLocalizations {
     );
   }
 
-  /// `Send to TV`
+  /// `LAN sharing`
   String get sendToTvTitle {
     return Intl.message(
-      'Send to TV',
+      'LAN sharing',
       name: 'sendToTvTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Add from Phone`
+  /// `LAN discovery`
   String get addFromPhoneTitle {
     return Intl.message(
-      'Add from Phone',
+      'LAN discovery',
       name: 'addFromPhoneTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Scan QR code with phone`
+  /// `Discover shared profiles on this network`
   String get addFromPhoneSubtitle {
     return Intl.message(
-      'Scan QR code with phone',
+      'Discover shared profiles on this network',
       name: 'addFromPhoneSubtitle',
       desc: '',
       args: [],
@@ -3665,9 +3665,9 @@ class AppLocalizations {
     );
   }
 
-  /// `Send to TV`
+  /// `Share to LAN`
   String get sendToTv {
-    return Intl.message('Send to TV', name: 'sendToTv', desc: '', args: []);
+    return Intl.message('Share to LAN', name: 'sendToTv', desc: '', args: []);
   }
 
   /// `Support`

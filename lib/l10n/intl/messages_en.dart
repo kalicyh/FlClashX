@@ -64,10 +64,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "action_view": MessageLookupByLibrary.simpleMessage("Show/Hide"),
         "add": MessageLookupByLibrary.simpleMessage("Add"),
         "addFromPhoneSubtitle": MessageLookupByLibrary.simpleMessage(
-          "Scan QR code with phone",
+          "Discover shared profiles on this network",
         ),
         "addFromPhoneTitle":
-            MessageLookupByLibrary.simpleMessage("Add from Phone"),
+            MessageLookupByLibrary.simpleMessage("LAN discovery"),
         "addProfile": MessageLookupByLibrary.simpleMessage("Add Profile"),
         "addRule": MessageLookupByLibrary.simpleMessage("Add rule"),
         "addedRules": MessageLookupByLibrary.simpleMessage("Added rules"),
@@ -737,8 +737,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectProfile": MessageLookupByLibrary.simpleMessage("Select Profile"),
         "selected": MessageLookupByLibrary.simpleMessage("Selected"),
         "selectedCountTitle": m7,
-        "sendToTv": MessageLookupByLibrary.simpleMessage("Send to TV"),
-        "sendToTvTitle": MessageLookupByLibrary.simpleMessage("Send to TV"),
+        "sendToTv": MessageLookupByLibrary.simpleMessage("Share to LAN"),
+        "sendToTvTitle": MessageLookupByLibrary.simpleMessage("LAN sharing"),
         "sentSuccessfullyMessage": MessageLookupByLibrary.simpleMessage(
           "Sent successfully",
         ),

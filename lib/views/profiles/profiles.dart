@@ -439,19 +439,20 @@ class _ProfileItemState extends State<ProfileItem> {
                                 icon: Icons.emergency_outlined,
                                 label: appLocalizations.more,
                                 subItems: [
-                                  if (system.isMobile && !_isTV)
-                                    PopupMenuItemData(
-                                      icon: Icons.tv_outlined,
-                                      label: appLocalizations.sendToTv,
-                                      onPressed: () {
-                                        BaseNavigator.push(
-                                          context,
-                                          SendToTvPage(
-                                            profileUrl: widget.profile.url,
-                                          ),
-                                        );
-                                      },
-                                    ),
+                                  PopupMenuItemData(
+                                    icon: Icons.wifi_tethering,
+                                    label: appLocalizations.sendToTv,
+                                    onPressed: () {
+                                      BaseNavigator.push(
+                                        context,
+                                        LanProfileSharePage(
+                                          profileUrl: widget.profile.url,
+                                          profileName: widget.profile.label ??
+                                              widget.profile.id,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                   if (widget.profile
                                               .providerHeaders['support-url'] !=
                                           null &&

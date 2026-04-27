@@ -66,10 +66,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "action_view": MessageLookupByLibrary.simpleMessage("Показать/Скрыть"),
         "add": MessageLookupByLibrary.simpleMessage("Добавить"),
         "addFromPhoneSubtitle": MessageLookupByLibrary.simpleMessage(
-          "Сканировать QR-код телефоном",
+          "Найти профили, опубликованные в этой сети",
         ),
         "addFromPhoneTitle": MessageLookupByLibrary.simpleMessage(
-          "Добавить с телефона",
+          "Поиск в LAN",
         ),
         "addProfile": MessageLookupByLibrary.simpleMessage("Добавить профиль"),
         "addRule": MessageLookupByLibrary.simpleMessage("Добавить правило"),
@@ -787,9 +787,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Выбрать профиль"),
         "selected": MessageLookupByLibrary.simpleMessage("Выбрано"),
         "selectedCountTitle": m7,
-        "sendToTv": MessageLookupByLibrary.simpleMessage("Отправить на ТВ"),
+        "sendToTv": MessageLookupByLibrary.simpleMessage("Поделиться в LAN"),
         "sendToTvTitle":
-            MessageLookupByLibrary.simpleMessage("Отправить на ТВ"),
+            MessageLookupByLibrary.simpleMessage("Общий доступ в LAN"),
         "sentSuccessfullyMessage": MessageLookupByLibrary.simpleMessage(
           "Отправлено успешно",
         ),
