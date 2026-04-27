@@ -1,16 +1,17 @@
 import 'package:flclashx/common/common.dart';
 import 'package:flclashx/models/common.dart';
+import 'package:flclashx/widgets/animated_cross_slide.dart';
 import 'package:flutter/material.dart';
 
 class CommonPopupRoute<T> extends PopupRoute<T> {
-
   CommonPopupRoute({
     required this.barrierLabel,
     required this.builder,
     required this.offsetNotifier,
   });
+
   final WidgetBuilder builder;
-  ValueNotifier<Offset> offsetNotifier;
+  final ValueNotifier<Offset> offsetNotifier;
 
   @override
   String? barrierLabel;
@@ -26,56 +27,58 @@ class CommonPopupRoute<T> extends PopupRoute<T> {
     BuildContext context,
     Animation<double> animation,
     Animation<double> secondaryAnimation,
-  ) => builder(
-      context,
-    );
+  ) =>
+      builder(context);
 
   @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
+  Widget buildTransitions(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
     const align = Alignment.topRight;
-    final animationValue = CurvedAnimation(
-      parent: animation,
-      curve: Curves.easeIn,
-    ).value;
+    final curveAnimation = animation
+        .drive(Tween(begin: 0.0, end: 1.0))
+        .drive(CurveTween(curve: Curves.easeOutBack));
+    final opacityAnimation = animation
+        .drive(Tween(begin: 0.0, end: 1.0))
+        .drive(CurveTween(curve: Curves.easeOut));
     return SafeArea(
       child: ValueListenableBuilder(
         valueListenable: offsetNotifier,
         builder: (_, value, child) => Align(
-            alignment: align,
-            child: CustomSingleChildLayout(
-              delegate: OverflowAwareLayoutDelegate(
-                offset: value.translate(
-                  48,
-                  -8,
-                ),
-              ),
-              child: child,
+          alignment: align,
+          child: CustomSingleChildLayout(
+            delegate: OverflowAwareLayoutDelegate(
+              offset: value.translate(48, -8),
             ),
+            child: child,
           ),
+        ),
         child: AnimatedBuilder(
           animation: animation,
-          builder: (_, child) => Opacity(
-              opacity: 0.1 + 0.9 * animationValue,
-              child: Transform.scale(
-                alignment: align,
-                scale: 0.7 + 0.3 * animationValue,
-                child: Transform.translate(
-                  offset: const Offset(0, -10) * (1 - animationValue),
-                  child: child,
+          builder: (_, child) => FadeTransition(
+            opacity: opacityAnimation,
+            child: ScaleTransition(
+              alignment: align,
+              scale: curveAnimation,
+              child: SlideTransition(
+                position: curveAnimation.drive(
+                  Tween(begin: const Offset(0, -0.02), end: Offset.zero),
                 ),
+                child: child,
               ),
             ),
-          child: builder(
-            context,
           ),
+          child: builder(context),
         ),
       ),
     );
   }
 
   @override
-  Duration get transitionDuration => const Duration(milliseconds: 150);
+  Duration get transitionDuration => const Duration(milliseconds: 250);
 }
 
 class PopupController extends ValueNotifier<bool> {
@@ -90,17 +93,15 @@ class PopupController extends ValueNotifier<bool> {
   }
 }
 
-typedef PopupOpen = Function({
-  Offset offset,
-});
+typedef PopupOpen = Function({Offset offset});
 
 class CommonPopupBox extends StatefulWidget {
-
   const CommonPopupBox({
     super.key,
     required this.targetBuilder,
     required this.popup,
   });
+
   final Widget Function(PopupOpen open) targetBuilder;
   final Widget popup;
 
@@ -121,7 +122,7 @@ class _CommonPopupBoxState extends State<CommonPopupBox> {
         .push(
       CommonPopupRoute(
         barrierLabel: utils.id,
-        builder: (context) => widget.popup,
+        builder: (_) => widget.popup,
         offsetNotifier: _targetOffsetValueNotifier,
       ),
     )
@@ -138,37 +139,30 @@ class _CommonPopupBoxState extends State<CommonPopupBox> {
     final viewPadding = MediaQuery.of(context).viewPadding;
     _targetOffsetValueNotifier.value = renderBox
         .localToGlobal(
-          Offset.zero.translate(
-            viewPadding.right,
-            viewPadding.top,
-          ),
+          Offset.zero.translate(viewPadding.right, viewPadding.top),
         )
-        .translate(
-          _offset.dx,
-          _offset.dy,
-        );
+        .translate(_offset.dx, _offset.dy);
   }
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(builder: (_, __) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (_isOpen) {
-          _updateOffset();
-        }
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_isOpen) {
+            _updateOffset();
+          }
+        });
+        return widget.targetBuilder(_open);
       });
-      return widget.targetBuilder(_open);
-    });
 }
 
 class OverflowAwareLayoutDelegate extends SingleChildLayoutDelegate {
+  OverflowAwareLayoutDelegate({required this.offset});
 
-  OverflowAwareLayoutDelegate({
-    required this.offset,
-  });
   final Offset offset;
 
   @override
-  Size getSize(BoxConstraints constraints) => Size(constraints.maxWidth, constraints.maxHeight);
+  Size getSize(BoxConstraints constraints) =>
+      Size(constraints.maxWidth, constraints.maxHeight);
 
   @override
   Offset getPositionForChild(Size size, Size childSize) {
@@ -177,7 +171,7 @@ class OverflowAwareLayoutDelegate extends SingleChildLayoutDelegate {
       0.0,
       size.width - safeOffset.dx - childSize.width,
     );
-    final y = (offset.dy).clamp(
+    final y = offset.dy.clamp(
       0.0,
       size.height - safeOffset.dy - childSize.height,
     );
@@ -185,11 +179,11 @@ class OverflowAwareLayoutDelegate extends SingleChildLayoutDelegate {
   }
 
   @override
-  bool shouldRelayout(covariant OverflowAwareLayoutDelegate oldDelegate) => oldDelegate.offset != offset;
+  bool shouldRelayout(covariant OverflowAwareLayoutDelegate oldDelegate) =>
+      oldDelegate.offset != offset;
 }
 
 class CommonPopupMenu extends StatelessWidget {
-
   const CommonPopupMenu({
     super.key,
     required this.items,
@@ -197,37 +191,97 @@ class CommonPopupMenu extends StatelessWidget {
     this.minItemVerticalPadding = 16,
     this.fontSize = 15,
   });
+
   final List<PopupMenuItemData> items;
   final double minWidth;
   final double minItemVerticalPadding;
   final double fontSize;
 
+  @override
+  Widget build(BuildContext context) => Card(
+        elevation: 12,
+        color: context.colorScheme.surfaceContainer,
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: IntrinsicWidth(
+          child: _CommonPopupMenuItems(
+            items: items,
+            minWidth: minWidth,
+            minItemVerticalPadding: minItemVerticalPadding,
+            fontSize: fontSize,
+          ),
+        ),
+      );
+}
+
+class _CommonPopupMenuItems extends StatefulWidget {
+  const _CommonPopupMenuItems({
+    required this.items,
+    required this.minWidth,
+    required this.minItemVerticalPadding,
+    required this.fontSize,
+  });
+
+  final List<PopupMenuItemData> items;
+  final double minWidth;
+  final double minItemVerticalPadding;
+  final double fontSize;
+
+  @override
+  State<_CommonPopupMenuItems> createState() => _CommonPopupMenuItemsState();
+}
+
+class _CommonPopupMenuItemsState extends State<_CommonPopupMenuItems> {
+  List<PopupMenuItemData> _nextItems = [];
+  String? _subTitle;
+  bool _showSubMenu = false;
+
   Widget _popupMenuItem(
     BuildContext context, {
     required PopupMenuItemData item,
-    required int index,
   }) {
-    final onPressed = item.onPressed;
+    final onPressed = item.subItems.isNotEmpty
+        ? () {
+            _nextItems = item.subItems;
+            _subTitle = item.label;
+            setState(() {
+              _showSubMenu = true;
+            });
+          }
+        : item.onPressed;
     final disabled = onPressed == null;
-    final color = disabled
-        ? context.colorScheme.onSurface.opacity30
+    final color = item.danger
+        ? context.colorScheme.onError
         : context.colorScheme.onSurface;
-    return InkWell(
-      onTap: onPressed != null
+    final foregroundColor = disabled ? color.opacity30 : color;
+    final backgroundColor = item.danger
+        ? context.colorScheme.error
+        : context.colorScheme.surfaceContainer;
+
+    return TextButton(
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.zero,
+        shape: LinearBorder.none,
+        foregroundColor: foregroundColor,
+        backgroundColor: backgroundColor,
+      ),
+      onPressed: onPressed != null
           ? () {
-              Navigator.of(context).pop();
+              if (item.subItems.isEmpty) {
+                Navigator.of(context).pop();
+              }
               onPressed();
             }
           : null,
       child: Container(
-        constraints: BoxConstraints(
-          minWidth: minWidth,
-        ),
+        constraints: BoxConstraints(minWidth: widget.minWidth),
         padding: EdgeInsets.only(
           left: 16,
           right: 64,
-          top: minItemVerticalPadding,
-          bottom: minItemVerticalPadding,
+          top: widget.minItemVerticalPadding,
+          bottom: widget.minItemVerticalPadding,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.max,
@@ -235,19 +289,17 @@ class CommonPopupMenu extends StatelessWidget {
             if (item.icon != null) ...[
               Icon(
                 item.icon,
-                size: fontSize + 4,
-                color: color,
+                size: widget.fontSize + 4,
+                color: foregroundColor,
               ),
-              const SizedBox(
-                width: 16,
-              ),
+              const SizedBox(width: 16),
             ],
             Flexible(
               child: Text(
                 item.label,
                 style: context.textTheme.bodyMedium?.copyWith(
-                  color: color,
-                  fontSize: fontSize,
+                  color: foregroundColor,
+                  fontSize: widget.fontSize,
                 ),
               ),
             ),
@@ -257,34 +309,70 @@ class CommonPopupMenu extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) => IntrinsicHeight(
-      child: IntrinsicWidth(
-        child: Card(
-          elevation: 12,
-          color: context.colorScheme.surfaceContainer,
-          clipBehavior: Clip.antiAlias,
-          shape: RoundedSuperellipseBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              for (final item in items.asMap().entries) ...[
-                _popupMenuItem(
-                  context,
-                  item: item.value,
-                  index: item.key,
+  Widget _buildItems(List<PopupMenuItemData> items) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for (final item in items.asMap().entries) ...[
+            _popupMenuItem(context, item: item.value),
+            if (item.value != items.last) const Divider(height: 0),
+          ],
+        ],
+      );
+
+  Widget _buildSubMenu() => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 8, top: 6, bottom: 2),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_outlined,
+                    color: context.colorScheme.onSurfaceVariant.opacity80,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _showSubMenu = false;
+                    });
+                  },
+                  iconSize: 18,
+                  style: const ButtonStyle(
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    minimumSize: WidgetStatePropertyAll(Size.zero),
+                    padding: WidgetStatePropertyAll(EdgeInsets.all(8)),
+                  ),
                 ),
-                if (item.value != items.last)
-                  const Divider(
-                    height: 0,
+                const SizedBox(width: 4),
+                if (_subTitle != null)
+                  Text(
+                    _subTitle!,
+                    style: context.textTheme.bodySmall?.copyWith(
+                      color: context.colorScheme.onSurfaceVariant.opacity80,
+                    ),
                   ),
               ],
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+          _CommonPopupMenuItems(
+            items: _nextItems,
+            minWidth: widget.minWidth,
+            minItemVerticalPadding: widget.minItemVerticalPadding,
+            fontSize: widget.fontSize,
+          ),
+        ],
+      );
+
+  @override
+  Widget build(BuildContext context) => AnimatedCrossSlide(
+        secondCurve: Curves.easeOut,
+        firstChild: _buildItems(widget.items),
+        secondChild: _nextItems.isEmpty ? Container() : _buildSubMenu(),
+        crossSlideState: _showSubMenu
+            ? CrossSlideState.showSecond
+            : CrossSlideState.showFirst,
+        duration: const Duration(milliseconds: 250),
+      );
 }

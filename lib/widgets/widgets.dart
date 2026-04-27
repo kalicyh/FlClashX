@@ -1,4 +1,5 @@
 export 'activate_box.dart';
+export 'animated_cross_slide.dart';
 export 'animate_grid.dart';
 export 'builder.dart';
 export 'card.dart';
