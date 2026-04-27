@@ -114,12 +114,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "applicationDesc": MessageLookupByLibrary.simpleMessage(
           "Стандартные настройки приложения",
         ),
-        "showAllOptions": MessageLookupByLibrary.simpleMessage(
-          "Показать все параметры",
-        ),
-        "showAllOptionsDesc": MessageLookupByLibrary.simpleMessage(
-          "Показать параметры, скрытые для текущего типа устройства",
-        ),
         "auto": MessageLookupByLibrary.simpleMessage("Авто"),
         "autoCheckUpdate": MessageLookupByLibrary.simpleMessage(
           "Автопроверка обновлений",
@@ -234,11 +228,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "copyLink": MessageLookupByLibrary.simpleMessage("Копировать ссылку"),
         "copySuccess":
             MessageLookupByLibrary.simpleMessage("Копирование успешно"),
-        "connected": MessageLookupByLibrary.simpleMessage("Подключено"),
-        "connecting": MessageLookupByLibrary.simpleMessage("Подключение..."),
         "core": MessageLookupByLibrary.simpleMessage("Ядро"),
         "coreInfo": MessageLookupByLibrary.simpleMessage("Информация о ядре"),
-        "coreStatus": MessageLookupByLibrary.simpleMessage("Статус ядра"),
         "country": MessageLookupByLibrary.simpleMessage("Страна"),
         "crashTest": MessageLookupByLibrary.simpleMessage("Тест на сбои"),
         "create": MessageLookupByLibrary.simpleMessage("Создать"),
@@ -362,9 +353,6 @@ class MessageLookup extends MessageLookupByLibrary {
           "Может незначительно снизить производительность",
         ),
         "fontFamily": MessageLookupByLibrary.simpleMessage("Семейство шрифтов"),
-        "forceRestartCoreTip": MessageLookupByLibrary.simpleMessage(
-          "Ядро подключено. Перезапустить сейчас?",
-        ),
         "fourColumns": MessageLookupByLibrary.simpleMessage("Четыре столбца"),
         "fruitSaladScheme":
             MessageLookupByLibrary.simpleMessage("Фруктовый микс"),
@@ -457,6 +445,14 @@ class MessageLookup extends MessageLookupByLibrary {
           "Восстановление данных из файла",
         ),
         "logLevel": MessageLookupByLibrary.simpleMessage("Уровень логов"),
+        "loading": MessageLookupByLibrary.simpleMessage("Загрузка..."),
+        "connected": MessageLookupByLibrary.simpleMessage("Подключено"),
+        "connecting": MessageLookupByLibrary.simpleMessage("Подключение..."),
+        "coreStatus": MessageLookupByLibrary.simpleMessage("Основной статус"),
+        "disconnected": MessageLookupByLibrary.simpleMessage("Отключено"),
+        "forceRestartCoreTip": MessageLookupByLibrary.simpleMessage(
+          "Вы уверены, что хотите принудительно перезапустить ядро?",
+        ),
         "logcat": MessageLookupByLibrary.simpleMessage("Журналирование"),
         "logcatDesc": MessageLookupByLibrary.simpleMessage(
           "Вести журнал событий приложения",
@@ -753,6 +749,9 @@ class MessageLookup extends MessageLookupByLibrary {
           "DNS-запросы следуют правилам маршрутизации (требуется настройка proxy-server-nameserver)",
         ),
         "restart": MessageLookupByLibrary.simpleMessage("Перезапустить"),
+        "restartCoreTip": MessageLookupByLibrary.simpleMessage(
+          "Вы уверены, что хотите перезапустить ядро?",
+        ),
         "routeAddress":
             MessageLookupByLibrary.simpleMessage("Адрес маршрутизации"),
         "routeAddressDesc": MessageLookupByLibrary.simpleMessage(

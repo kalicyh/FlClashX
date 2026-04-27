@@ -5,6 +5,7 @@ import 'package:flclashx/models/models.dart';
 import 'package:flclashx/providers/providers.dart';
 import 'package:flclashx/state.dart';
 import 'package:flclashx/widgets/fade_box.dart';
+import 'package:flclashx/widgets/loading.dart';
 import 'package:flclashx/widgets/pop_scope.dart';
 import 'package:flclashx/widgets/search_order_marker.dart';
 import 'package:flutter/material.dart';
@@ -74,8 +75,6 @@ class CommonScaffoldState extends ConsumerState<CommonScaffold> {
   late final ValueNotifier<AppBarState> _appBarState;
   final ValueNotifier<Widget?> _floatingActionButton = ValueNotifier(null);
   final ValueNotifier<List<String>> _keywordsNotifier = ValueNotifier([]);
-  final ValueNotifier<bool> _loading = ValueNotifier(false);
-
   final _textController = TextEditingController();
 
   Function(List<String>)? _onKeywordsUpdate;
@@ -156,10 +155,8 @@ class CommonScaffoldState extends ConsumerState<CommonScaffold> {
     Future<T> Function() futureFunction, {
     String? title,
   }) async {
-    _loading.value = true;
     try {
       final res = await futureFunction();
-      _loading.value = false;
       return res;
     } catch (e) {
       globalState.showMessage(
@@ -168,7 +165,6 @@ class CommonScaffoldState extends ConsumerState<CommonScaffold> {
           text: e.toString(),
         ),
       );
-      _loading.value = false;
       return null;
     }
   }
@@ -400,11 +396,6 @@ class CommonScaffoldState extends ConsumerState<CommonScaffold> {
                     ),
                   ),
                 ),
-            ValueListenableBuilder(
-              valueListenable: _loading,
-              builder: (_, value, __) =>
-                  value == true ? const LinearProgressIndicator() : Container(),
-            ),
           ],
         ),
       ),
@@ -523,7 +514,7 @@ class CommonScaffoldState extends ConsumerState<CommonScaffold> {
           )
         : scaffold;
 
-    return _sideNavigationBar != null
+    final content = _sideNavigationBar != null
         ? Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -535,6 +526,13 @@ class CommonScaffoldState extends ConsumerState<CommonScaffold> {
             ],
           )
         : scaffoldWithBackground;
+
+    return Stack(
+      children: [
+        content,
+        const ProfileLoadingOverlay(),
+      ],
+    );
   }
 }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flclashx/common/common.dart';
 import 'package:flclashx/enum/enum.dart';
 import 'package:flclashx/models/models.dart';
@@ -7,6 +9,55 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'generated/app.g.dart';
+
+final loadingProvider =
+    StateNotifierProvider.family<LoadingNotifier, bool, LoadingTag>(
+  (ref, tag) => LoadingNotifier(),
+);
+
+final coreStatusProvider = StateProvider<CoreStatus>(
+  (ref) => CoreStatus.disconnected,
+);
+
+class LoadingNotifier extends StateNotifier<bool> {
+  LoadingNotifier() : super(false);
+
+  DateTime? _start;
+  Timer? _timer;
+
+  void start() {
+    _timer?.cancel();
+    _timer = null;
+    _start = DateTime.now();
+    state = true;
+  }
+
+  Future<void> stop() async {
+    if (_start == null) {
+      state = false;
+      return;
+    }
+    final startedAt = _start!;
+    final elapsed = DateTime.now().difference(startedAt).inMilliseconds;
+    const minDuration = 1000;
+    if (elapsed >= minDuration) {
+      state = false;
+      return;
+    }
+    _timer = Timer(Duration(milliseconds: minDuration - elapsed), () {
+      if (_start != startedAt) {
+        return;
+      }
+      state = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+}
 
 @riverpod
 class RealTunEnable extends _$RealTunEnable with AutoDisposeNotifierMixin {

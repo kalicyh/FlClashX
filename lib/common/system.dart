@@ -9,7 +9,6 @@ import 'package:flclashx/widgets/input.dart';
 import 'package:flutter/services.dart';
 
 class System {
-
   factory System() {
     _instance ??= System._internal();
     return _instance!;
@@ -84,7 +83,7 @@ class System {
       if (startedWithoutUac == true) {
         return AuthorizeCode.success;
       }
-      
+
       // Service not installed or couldn't start - need to install with UAC
       final result = await windows?.installService();
       if (result == true) {

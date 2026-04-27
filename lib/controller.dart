@@ -132,10 +132,19 @@ class AppController {
 
   Future<void> restartCore() async {
     commonPrint.log("restart core");
-    await clashService?.reStart();
-    await _initCore();
-    if (_ref.read(runTimeProvider.notifier).isStart) {
-      await globalState.handleStart();
+    if (_ref.read(coreStatusProvider) == CoreStatus.connecting) {
+      return;
+    }
+    _ref.read(coreStatusProvider.notifier).state = CoreStatus.connecting;
+    try {
+      await clashService?.reStart();
+      await _initCore();
+      if (_ref.read(runTimeProvider.notifier).isStart) {
+        await globalState.handleStart();
+      }
+    } catch (_) {
+      _ref.read(coreStatusProvider.notifier).state = CoreStatus.disconnected;
+      rethrow;
     }
   }
 
@@ -813,7 +822,7 @@ class AppController {
 
   Future _applyProfile() async {
     clashCore.requestGc();
-    await setupClashConfig();
+    await _setupClashConfig();
     await updateGroups();
     await updateProviders();
   }
@@ -822,11 +831,22 @@ class AppController {
     if (silence) {
       await _applyProfile();
     } else {
-      final commonScaffoldState = globalState.homeScaffoldKey.currentState;
-      if (commonScaffoldState?.mounted != true) return;
-      await commonScaffoldState?.loadingRun(() async {
+      final profileLoading = _ref.read(
+        loadingProvider(LoadingTag.profiles).notifier,
+      );
+      profileLoading.start();
+      try {
         await _applyProfile();
-      });
+      } catch (e) {
+        unawaited(globalState.showMessage(
+          title: appLocalizations.tip,
+          message: TextSpan(
+            text: e.toString(),
+          ),
+        ));
+      } finally {
+        await profileLoading.stop();
+      }
     }
     addCheckIpNumDebounce();
   }
@@ -1177,14 +1197,21 @@ class AppController {
   }
 
   Future<void> _initCore() async {
+    _ref.read(coreStatusProvider.notifier).state = CoreStatus.connecting;
     final isInit = await clashCore.isInit;
-    if (!isInit) {
-      await clashCore.init();
-      await clashCore.setState(
-        globalState.getCoreState(),
-      );
+    try {
+      if (!isInit) {
+        await clashCore.init();
+        await clashCore.setState(
+          globalState.getCoreState(),
+        );
+      }
+      await applyProfile();
+      _ref.read(coreStatusProvider.notifier).state = CoreStatus.connected;
+    } catch (_) {
+      _ref.read(coreStatusProvider.notifier).state = CoreStatus.disconnected;
+      rethrow;
     }
-    await applyProfile();
   }
 
   Future<void> init() async {

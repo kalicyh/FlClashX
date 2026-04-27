@@ -559,26 +559,6 @@ class AppLocalizations {
     );
   }
 
-  /// `Show all options`
-  String get showAllOptions {
-    return Intl.message(
-      'Show all options',
-      name: 'showAllOptions',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Display options hidden by the current device type`
-  String get showAllOptionsDesc {
-    return Intl.message(
-      'Display options hidden by the current device type',
-      name: 'showAllOptionsDesc',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Edit`
   String get edit {
     return Intl.message('Edit', name: 'edit', desc: '', args: []);
@@ -1034,6 +1014,61 @@ class AppLocalizations {
     return Intl.message('LogLevel', name: 'logLevel', desc: '', args: []);
   }
 
+  /// `Loading...`
+  String get loading {
+    return Intl.message('Loading...', name: 'loading', desc: '', args: []);
+  }
+
+  /// `Connected`
+  String get connected {
+    return Intl.message('Connected', name: 'connected', desc: '', args: []);
+  }
+
+  /// `Disconnected`
+  String get disconnected {
+    return Intl.message(
+      'Disconnected',
+      name: 'disconnected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connecting...`
+  String get connecting {
+    return Intl.message(
+      'Connecting...',
+      name: 'connecting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to restart the core?`
+  String get restartCoreTip {
+    return Intl.message(
+      'Are you sure you want to restart the core?',
+      name: 'restartCoreTip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to force restart the core?`
+  String get forceRestartCoreTip {
+    return Intl.message(
+      'Are you sure you want to force restart the core?',
+      name: 'forceRestartCoreTip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Core status`
+  String get coreStatus {
+    return Intl.message('Core status', name: 'coreStatus', desc: '', args: []);
+  }
+
   /// `Show`
   String get show {
     return Intl.message('Show', name: 'show', desc: '', args: []);
@@ -1067,32 +1102,6 @@ class AppLocalizations {
   /// `Core`
   String get core {
     return Intl.message('Core', name: 'core', desc: '', args: []);
-  }
-
-  /// `Core status`
-  String get coreStatus {
-    return Intl.message('Core status', name: 'coreStatus', desc: '', args: []);
-  }
-
-  /// `Connecting...`
-  String get connecting {
-    return Intl.message('Connecting...',
-        name: 'connecting', desc: '', args: []);
-  }
-
-  /// `Connected`
-  String get connected {
-    return Intl.message('Connected', name: 'connected', desc: '', args: []);
-  }
-
-  /// `Core is connected. Restart it now?`
-  String get forceRestartCoreTip {
-    return Intl.message(
-      'Core is connected. Restart it now?',
-      name: 'forceRestartCoreTip',
-      desc: '',
-      args: [],
-    );
   }
 
   /// `Tab animation`

@@ -48,15 +48,15 @@ class _DashboardViewState extends ConsumerState<DashboardView> with PageMixin {
         builder: (_, isEdit, ___) => builder(isEdit: isEdit),
       );
 
-  Future<void> _handleConnection(CoreStatus coreStatus) async {
+  Future<void> _handleConnection() async {
+    final coreStatus = ref.read(coreStatusProvider);
     if (coreStatus == CoreStatus.connecting) {
       return;
     }
-    final res = await globalState.showMessage(
-      message: TextSpan(
-        text: appLocalizations.forceRestartCoreTip,
-      ),
-    );
+    final tip = coreStatus == CoreStatus.connected
+        ? appLocalizations.forceRestartCoreTip
+        : appLocalizations.restartCoreTip;
+    final res = await globalState.showMessage(message: TextSpan(text: tip));
     if (res != true) {
       return;
     }
@@ -64,11 +64,11 @@ class _DashboardViewState extends ConsumerState<DashboardView> with PageMixin {
   }
 
   Widget _buildCoreStatusButton(BuildContext context, WidgetRef ref) {
-    final isInit = ref.watch(initProvider);
-    final coreStatus = isInit ? CoreStatus.connected : CoreStatus.connecting;
+    final coreStatus = ref.watch(coreStatusProvider);
     return Tooltip(
       message: appLocalizations.coreStatus,
       child: FadeScaleBox(
+        alignment: Alignment.centerRight,
         child: coreStatus == CoreStatus.connected
             ? IconButton.filled(
                 visualDensity: VisualDensity.compact,
@@ -82,29 +82,59 @@ class _DashboardViewState extends ConsumerState<DashboardView> with PageMixin {
                       context.colorScheme.onPrimaryFixedVariant,
                   },
                 ),
-                onPressed: () => _handleConnection(coreStatus),
+                onPressed: _handleConnection,
                 icon: const Icon(Icons.check, fontWeight: FontWeight.w900),
               )
             : FilledButton.icon(
                 key: ValueKey(coreStatus),
-                onPressed: () => _handleConnection(coreStatus),
+                onPressed: _handleConnection,
                 style: FilledButton.styleFrom(
                   visualDensity: VisualDensity.compact,
                   padding: const EdgeInsets.symmetric(horizontal: 12),
+                  backgroundColor: switch (coreStatus) {
+                    CoreStatus.connecting => null,
+                    CoreStatus.connected => Colors.greenAccent,
+                    CoreStatus.disconnected => context.colorScheme.error,
+                  },
+                  foregroundColor: switch (coreStatus) {
+                    CoreStatus.connecting => null,
+                    CoreStatus.connected => switch (Theme.brightnessOf(
+                        context,
+                      )) {
+                        Brightness.light =>
+                          context.colorScheme.onSurfaceVariant,
+                        Brightness.dark => null,
+                      },
+                    CoreStatus.disconnected => context.colorScheme.onError,
+                  },
                 ),
                 icon: SizedBox(
                   height: globalState.measure.bodyMediumHeight,
                   width: globalState.measure.bodyMediumHeight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(2),
-                    child: CircularProgressIndicator(
-                      strokeWidth: 3,
-                      color: context.colorScheme.onPrimary,
-                      backgroundColor: Colors.transparent,
-                    ),
-                  ),
+                  child: switch (coreStatus) {
+                    CoreStatus.connecting => Padding(
+                        padding: const EdgeInsets.all(2),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3,
+                          color: context.colorScheme.onPrimary,
+                          backgroundColor: Colors.transparent,
+                        ),
+                      ),
+                    CoreStatus.connected => const Icon(
+                        Icons.check_sharp,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    CoreStatus.disconnected => const Icon(
+                        Icons.restart_alt_sharp,
+                        fontWeight: FontWeight.w900,
+                      ),
+                  },
                 ),
-                label: Text(appLocalizations.connecting),
+                label: Text(switch (coreStatus) {
+                  CoreStatus.connecting => appLocalizations.connecting,
+                  CoreStatus.connected => appLocalizations.connected,
+                  CoreStatus.disconnected => appLocalizations.disconnected,
+                }),
               ),
       ),
     );
@@ -149,12 +179,16 @@ class _DashboardViewState extends ConsumerState<DashboardView> with PageMixin {
               return const SizedBox.shrink();
             }
 
-            return IconButton(
-              icon: _buildIsEdit(
-                ({required isEdit}) =>
-                    isEdit ? const Icon(Icons.save) : const Icon(Icons.edit),
+            return FadeRotationScaleBox(
+              child: _buildIsEdit(
+                ({required isEdit}) => IconButton(
+                  key: ValueKey(isEdit),
+                  icon: isEdit
+                      ? const Icon(Icons.save, key: ValueKey('save-icon'))
+                      : const Icon(Icons.edit, key: ValueKey('edit-icon')),
+                  onPressed: _handleUpdateIsEdit,
+                ),
               ),
-              onPressed: _handleUpdateIsEdit,
             );
           },
         ),

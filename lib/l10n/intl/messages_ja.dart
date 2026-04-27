@@ -86,9 +86,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "appDesc": MessageLookupByLibrary.simpleMessage("アプリ関連設定の処理"),
         "application": MessageLookupByLibrary.simpleMessage("アプリケーション設定"),
         "applicationDesc": MessageLookupByLibrary.simpleMessage("標準アプリ設定"),
-        "showAllOptions": MessageLookupByLibrary.simpleMessage("すべてのオプションを表示"),
-        "showAllOptionsDesc":
-            MessageLookupByLibrary.simpleMessage("現在のデバイスタイプで非表示のオプションを表示"),
         "auto": MessageLookupByLibrary.simpleMessage("自動"),
         "autoCheckUpdate": MessageLookupByLibrary.simpleMessage("自動更新チェック"),
         "autoCheckUpdateDesc": MessageLookupByLibrary.simpleMessage(
@@ -166,11 +163,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "copyEnvVar": MessageLookupByLibrary.simpleMessage("環境変数をコピー"),
         "copyLink": MessageLookupByLibrary.simpleMessage("リンクをコピー"),
         "copySuccess": MessageLookupByLibrary.simpleMessage("コピー成功"),
-        "connected": MessageLookupByLibrary.simpleMessage("接続済み"),
-        "connecting": MessageLookupByLibrary.simpleMessage("接続中..."),
         "core": MessageLookupByLibrary.simpleMessage("コア"),
         "coreInfo": MessageLookupByLibrary.simpleMessage("コア情報"),
-        "coreStatus": MessageLookupByLibrary.simpleMessage("コア状態"),
         "country": MessageLookupByLibrary.simpleMessage("国"),
         "crashTest": MessageLookupByLibrary.simpleMessage("クラッシュテスト"),
         "create": MessageLookupByLibrary.simpleMessage("作成"),
@@ -253,8 +247,6 @@ class MessageLookup extends MessageLookupByLibrary {
           "有効化するとパフォーマンスが若干低下します",
         ),
         "fontFamily": MessageLookupByLibrary.simpleMessage("フォントファミリー"),
-        "forceRestartCoreTip":
-            MessageLookupByLibrary.simpleMessage("コアは接続済みです。今すぐ再起動しますか？"),
         "fourColumns": MessageLookupByLibrary.simpleMessage("4列"),
         "fruitSaladScheme": MessageLookupByLibrary.simpleMessage("フルーツサラダ"),
         "general": MessageLookupByLibrary.simpleMessage("一般"),
@@ -317,6 +309,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "localRecoveryDesc":
             MessageLookupByLibrary.simpleMessage("ファイルからデータを復元"),
         "logLevel": MessageLookupByLibrary.simpleMessage("ログレベル"),
+        "loading": MessageLookupByLibrary.simpleMessage("読み込み中..."),
+        "connected": MessageLookupByLibrary.simpleMessage("接続済み"),
+        "connecting": MessageLookupByLibrary.simpleMessage("接続中..."),
+        "coreStatus": MessageLookupByLibrary.simpleMessage("コアステータス"),
+        "disconnected": MessageLookupByLibrary.simpleMessage("切断済み"),
+        "forceRestartCoreTip":
+            MessageLookupByLibrary.simpleMessage("コアを強制再起動してもよろしいですか？"),
         "logcat": MessageLookupByLibrary.simpleMessage("ログキャット"),
         "logcatDesc": MessageLookupByLibrary.simpleMessage("無効化するとログエントリを非表示"),
         "logs": MessageLookupByLibrary.simpleMessage("ログ"),
@@ -524,6 +523,8 @@ class MessageLookup extends MessageLookupByLibrary {
           "DNS接続がルールに従う（proxy-server-nameserverの設定が必要）",
         ),
         "restart": MessageLookupByLibrary.simpleMessage("再起動"),
+        "restartCoreTip":
+            MessageLookupByLibrary.simpleMessage("コアを再起動してもよろしいですか？"),
         "routeAddress": MessageLookupByLibrary.simpleMessage("ルートアドレス"),
         "routeAddressDesc": MessageLookupByLibrary.simpleMessage("ルートアドレスを設定"),
         "routeMode": MessageLookupByLibrary.simpleMessage("ルートモード"),
@@ -547,10 +548,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "seconds": MessageLookupByLibrary.simpleMessage("秒"),
         "selectAll": MessageLookupByLibrary.simpleMessage("すべて選択"),
         "selected": MessageLookupByLibrary.simpleMessage("選択済み"),
+        "selectedCountTitle": m7,
         "addFromPhoneSubtitle":
             MessageLookupByLibrary.simpleMessage("同じネットワークで共有されたプロファイルを検出"),
         "addFromPhoneTitle": MessageLookupByLibrary.simpleMessage("LAN 検出"),
-        "selectedCountTitle": m7,
         "sendToTv": MessageLookupByLibrary.simpleMessage("LAN に共有"),
         "sendToTvTitle": MessageLookupByLibrary.simpleMessage("LAN 共有"),
         "settings": MessageLookupByLibrary.simpleMessage("設定"),

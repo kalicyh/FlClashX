@@ -112,12 +112,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "applicationDesc": MessageLookupByLibrary.simpleMessage(
           "Standard application settings",
         ),
-        "showAllOptions": MessageLookupByLibrary.simpleMessage(
-          "Show all options",
-        ),
-        "showAllOptionsDesc": MessageLookupByLibrary.simpleMessage(
-          "Display options hidden by the current device type",
-        ),
         "auto": MessageLookupByLibrary.simpleMessage("Auto"),
         "autoCheckUpdate": MessageLookupByLibrary.simpleMessage(
           "Auto check updates",
@@ -223,11 +217,8 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
         "copyLink": MessageLookupByLibrary.simpleMessage("Copy link"),
         "copySuccess": MessageLookupByLibrary.simpleMessage("Copy success"),
-        "connected": MessageLookupByLibrary.simpleMessage("Connected"),
-        "connecting": MessageLookupByLibrary.simpleMessage("Connecting..."),
         "core": MessageLookupByLibrary.simpleMessage("Core"),
         "coreInfo": MessageLookupByLibrary.simpleMessage("Core info"),
-        "coreStatus": MessageLookupByLibrary.simpleMessage("Core status"),
         "country": MessageLookupByLibrary.simpleMessage("Country"),
         "crashTest": MessageLookupByLibrary.simpleMessage("Crash test"),
         "create": MessageLookupByLibrary.simpleMessage("Create"),
@@ -337,9 +328,6 @@ class MessageLookup extends MessageLookupByLibrary {
           "There is a certain performance loss after opening",
         ),
         "fontFamily": MessageLookupByLibrary.simpleMessage("FontFamily"),
-        "forceRestartCoreTip": MessageLookupByLibrary.simpleMessage(
-          "Core is connected. Restart it now?",
-        ),
         "fourColumns": MessageLookupByLibrary.simpleMessage("Four columns"),
         "fruitSaladScheme": MessageLookupByLibrary.simpleMessage("FruitSalad"),
         "general": MessageLookupByLibrary.simpleMessage("General"),
@@ -430,6 +418,14 @@ class MessageLookup extends MessageLookupByLibrary {
           "Recovery data from file",
         ),
         "logLevel": MessageLookupByLibrary.simpleMessage("LogLevel"),
+        "loading": MessageLookupByLibrary.simpleMessage("Loading..."),
+        "connected": MessageLookupByLibrary.simpleMessage("Connected"),
+        "connecting": MessageLookupByLibrary.simpleMessage("Connecting..."),
+        "coreStatus": MessageLookupByLibrary.simpleMessage("Core status"),
+        "disconnected": MessageLookupByLibrary.simpleMessage("Disconnected"),
+        "forceRestartCoreTip": MessageLookupByLibrary.simpleMessage(
+          "Are you sure you want to force restart the core?",
+        ),
         "logcat": MessageLookupByLibrary.simpleMessage("Logcat"),
         "logcatDesc": MessageLookupByLibrary.simpleMessage(
           "Disabling will hide the log entry",
@@ -706,6 +702,9 @@ class MessageLookup extends MessageLookupByLibrary {
           "DNS connection following rules, need to configure proxy-server-nameserver",
         ),
         "restart": MessageLookupByLibrary.simpleMessage("Restart"),
+        "restartCoreTip": MessageLookupByLibrary.simpleMessage(
+          "Are you sure you want to restart the core?",
+        ),
         "routeAddress": MessageLookupByLibrary.simpleMessage("Route address"),
         "routeAddressDesc": MessageLookupByLibrary.simpleMessage(
           "Config listen route address",

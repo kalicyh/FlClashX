@@ -457,33 +457,8 @@ class NotificationsItem extends ConsumerWidget {
   }
 }
 
-class ShowAllOptionsItem extends StatelessWidget {
-  const ShowAllOptionsItem({
-    super.key,
-    required this.onTap,
-  });
-
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) => ListItem(
-        title: Text(appLocalizations.showAllOptions),
-        subtitle: Text(appLocalizations.showAllOptionsDesc),
-        leading: const Icon(Icons.visibility_outlined),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-        onTap: onTap,
-      );
-}
-
-class ApplicationSettingView extends StatefulWidget {
+class ApplicationSettingView extends StatelessWidget {
   const ApplicationSettingView({super.key});
-
-  @override
-  State<ApplicationSettingView> createState() => _ApplicationSettingViewState();
-}
-
-class _ApplicationSettingViewState extends State<ApplicationSettingView> {
-  bool _showAllOptions = false;
 
   String getLocaleString(Locale? locale) {
     if (locale == null) return appLocalizations.defaultText;
@@ -494,21 +469,13 @@ class _ApplicationSettingViewState extends State<ApplicationSettingView> {
   Widget build(BuildContext context) {
     List<Widget> items = [
       OverrideProviderSettingsItem(),
-      if (!_showAllOptions)
-        ShowAllOptionsItem(
-          onTap: () {
-            setState(() {
-              _showAllOptions = true;
-            });
-          },
-        ),
       MinimizeItem(),
-      if (system.isDesktop || _showAllOptions) ...[
+      if (system.isDesktop) ...[
         AutoLaunchItem(),
         SilentLaunchItem(),
       ],
       AutoRunItem(),
-      if (Platform.isAndroid || _showAllOptions) ...[
+      if (Platform.isAndroid) ...[
         HiddenItem(),
       ],
       AnimateTabItem(),
@@ -516,7 +483,7 @@ class _ApplicationSettingViewState extends State<ApplicationSettingView> {
       NotificationsItem(),
       CloseConnectionsItem(),
       AutoCheckUpdateItem(),
-      if (system.isDesktop || _showAllOptions) ...[
+      if (system.isDesktop) ...[
         Padding(
           padding: const EdgeInsets.only(top: 16),
           child: OpenLogsFolderItem(),
