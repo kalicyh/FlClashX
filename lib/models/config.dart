@@ -93,9 +93,8 @@ class AppSettingProps with _$AppSettingProps {
   factory AppSettingProps.fromJson(Map<String, Object?> json) =>
       _$AppSettingPropsFromJson(json);
 
-  factory AppSettingProps.safeFromJson(Map<String, Object?>? json) => json == null
-        ? defaultAppSettingProps
-        : AppSettingProps.fromJson(json);
+  factory AppSettingProps.safeFromJson(Map<String, Object?>? json) =>
+      json == null ? defaultAppSettingProps : AppSettingProps.fromJson(json);
 }
 
 @freezed
@@ -165,12 +164,12 @@ class NetworkProps with _$NetworkProps {
 class ProxiesStyle with _$ProxiesStyle {
   const factory ProxiesStyle({
     @Default(ProxiesType.list) ProxiesType type,
-    @Default(ProxiesSortType.none) ProxiesSortType sortType,
+    @Default(ProxiesSortType.delay) ProxiesSortType sortType,
     @Default(ProxiesLayout.standard) ProxiesLayout layout,
     @JsonKey(unknownEnumValue: ProxiesIconStyle.icon)
     @Default(ProxiesIconStyle.icon)
     ProxiesIconStyle iconStyle,
-    @Default(ProxyCardType.expand) ProxyCardType cardType,
+    @Default(ProxyCardType.shrink) ProxyCardType cardType,
     @Default({}) Map<String, String> iconMap,
   }) = _ProxiesStyle;
 
@@ -181,8 +180,8 @@ class ProxiesStyle with _$ProxiesStyle {
 @freezed
 class TextScale with _$TextScale {
   const factory TextScale({
-    @Default(false) enable,
-    @Default(1.0) scale,
+    @Default(false) bool enable,
+    @Default(1.0) double scale,
   }) = _TextScale;
 
   factory TextScale.fromJson(Map<String, Object?> json) =>
@@ -276,7 +275,7 @@ class Config with _$Config {
           (json["vpnProps"]! as Map)["accessControl"] = accessControlMap;
         }
       }
-      
+
       // Migration: Replace deprecated "standard" iconStyle with "icon"
       final proxiesStyle = json["proxiesStyle"];
       if (proxiesStyle is Map) {

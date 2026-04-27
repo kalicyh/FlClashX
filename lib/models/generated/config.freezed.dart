@@ -1784,11 +1784,11 @@ class __$$ProxiesStyleImplCopyWithImpl<$Res>
 class _$ProxiesStyleImpl implements _ProxiesStyle {
   const _$ProxiesStyleImpl(
       {this.type = ProxiesType.list,
-      this.sortType = ProxiesSortType.none,
+      this.sortType = ProxiesSortType.delay,
       this.layout = ProxiesLayout.standard,
       @JsonKey(unknownEnumValue: ProxiesIconStyle.icon)
       this.iconStyle = ProxiesIconStyle.icon,
-      this.cardType = ProxyCardType.expand,
+      this.cardType = ProxyCardType.shrink,
       final Map<String, String> iconMap = const {}})
       : _iconMap = iconMap;
 
