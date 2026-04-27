@@ -86,14 +86,14 @@ class OutboundModeV2 extends StatelessWidget {
   const OutboundModeV2({super.key});
 
   Color _getTextColor(BuildContext context, Mode mode) => switch (mode) {
-      Mode.rule => context.colorScheme.onSecondaryContainer,
-      Mode.global => context.colorScheme.onPrimaryContainer,
-      Mode.direct => context.colorScheme.onTertiaryContainer,
-    };
+        Mode.rule => context.colorScheme.onSecondaryContainer,
+        Mode.global => context.colorScheme.onPrimaryContainer,
+        Mode.direct => context.colorScheme.onTertiaryContainer,
+      };
 
   @override
   Widget build(BuildContext context) {
-    final height = getWidgetHeight(0.72);
+    final height = getWidgetHeight(1);
     return SizedBox(
       height: height,
       child: CommonCard(
@@ -110,46 +110,59 @@ class OutboundModeV2 extends StatelessWidget {
               Mode.global => globalState.theme.darken3PrimaryContainer,
               Mode.direct => context.colorScheme.tertiaryContainer,
             };
-            return Container(
-              constraints: const BoxConstraints.expand(),
-              child: CommonTabBar<Mode>(
-                children: Map.fromEntries(
-                  Mode.values.map(
-                    (item) => MapEntry(
-                      item,
-                      Container(
-                        clipBehavior: Clip.antiAlias,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(),
-                        height: height - 16,
-                        child: Text(
-                          Intl.message(item.name),
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall
-                              ?.adjustSize(1)
-                              .copyWith(
-                                color: item == mode
-                                    ? _getTextColor(
-                                        context,
-                                        item,
-                                      )
-                                    : null,
+            return LayoutBuilder(
+              builder: (_, constraints) => Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      constraints: const BoxConstraints.expand(),
+                      child: CommonTabBar<Mode>(
+                        children: Map.fromEntries(
+                          Mode.values.map(
+                            (item) => MapEntry(
+                              item,
+                              Container(
+                                clipBehavior: Clip.antiAlias,
+                                alignment: Alignment.center,
+                                decoration: const BoxDecoration(),
+                                height: height - 8.ap - 24,
+                                padding: const EdgeInsets.all(4),
+                                child: Text(
+                                  Intl.message(item.name),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall
+                                      ?.adjustSize(1)
+                                      .copyWith(
+                                        color: item == mode
+                                            ? _getTextColor(context, item)
+                                            : null,
+                                      ),
+                                ),
                               ),
+                            ),
+                          ),
                         ),
+                        padding: EdgeInsets.zero,
+                        groupValue: mode,
+                        onValueChanged: (value) {
+                          if (value == null) {
+                            return;
+                          }
+                          globalState.appController.changeMode(value);
+                        },
+                        thumbColor: thumbColor,
                       ),
                     ),
                   ),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                groupValue: mode,
-                onValueChanged: (value) {
-                  if (value == null) {
-                    return;
-                  }
-                  globalState.appController.changeMode(value);
-                },
-                thumbColor: thumbColor,
+                  Container(
+                    color: thumbColor.opacity50,
+                    height: 8.ap,
+                    width: constraints.maxWidth,
+                  ),
+                ],
               ),
             );
           },

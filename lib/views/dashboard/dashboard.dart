@@ -4,6 +4,7 @@ import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flclashx/common/common.dart';
 import 'package:flclashx/enum/enum.dart';
 import 'package:flclashx/providers/providers.dart';
+import 'package:flclashx/state.dart';
 import 'package:flclashx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,6 +52,16 @@ class _DashboardViewState extends ConsumerState<DashboardView> with PageMixin {
   List<Widget> get actions => [
         _buildIsEdit(
           ({required isEdit}) => isEdit
+              ? const SizedBox()
+              : IconButton(
+                  tooltip:
+                      '${appLocalizations.restart} ${appLocalizations.core}',
+                  onPressed: _handleRestartCore,
+                  icon: const Icon(Icons.restart_alt),
+                ),
+        ),
+        _buildIsEdit(
+          ({required isEdit}) => isEdit
               ? ValueListenableBuilder(
                   valueListenable: _addedWidgetsNotifier,
                   builder: (_, addedChildren, child) {
@@ -88,6 +99,18 @@ class _DashboardViewState extends ConsumerState<DashboardView> with PageMixin {
           },
         ),
       ];
+
+  Future<void> _handleRestartCore() async {
+    final res = await globalState.showMessage(
+      message: TextSpan(
+        text: '${appLocalizations.restart} ${appLocalizations.core}?',
+      ),
+    );
+    if (res != true) {
+      return;
+    }
+    await globalState.appController.restartCore();
+  }
 
   void _showAddWidgetsModal() {
     showSheet(
