@@ -604,7 +604,11 @@ class GlobalState {
       rawConfig["hosts"] = {};
     }
     for (final host in realPatchConfig.hosts.entries) {
-      rawConfig["hosts"][host.key] = host.value.splitByMultipleSeparators;
+      if (!HostEntry.isEnabled(host.key)) {
+        continue;
+      }
+      rawConfig["hosts"][HostEntry.displayKey(host.key)] =
+          host.value.splitByMultipleSeparators;
     }
     if (rawConfig["dns"] == null) {
       rawConfig["dns"] = {};

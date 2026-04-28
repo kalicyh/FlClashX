@@ -406,6 +406,108 @@ class PortItem extends ConsumerWidget {
 class HostsItem extends StatelessWidget {
   const HostsItem({super.key});
 
+  int _getDnsPort(String listen) {
+    final match = RegExp(r':(\d+)$').firstMatch(listen.trim());
+    if (match != null) {
+      return int.tryParse(match.group(1)!) ?? 1053;
+    }
+    return int.tryParse(listen.trim()) ?? 1053;
+  }
+
+  String _getTestDomain(String host) {
+    final value = HostEntry.displayKey(host).trim();
+    if (value.startsWith('*.')) {
+      return 'probe.${value.substring(2)}';
+    }
+    if (value.startsWith('+.')) {
+      return 'probe.${value.substring(2)}';
+    }
+    return value;
+  }
+
+  List<String> _getExpectedAddresses(String value) => value
+      .split(RegExp(r'[, ;]+'))
+      .map((item) => item.trim())
+      .where((item) => item.isNotEmpty)
+      .toList();
+
+  Future<void> _handleTest(WidgetRef ref, MapEntry<String, String> item) async {
+    final dns = ref.read(patchClashConfigProvider).dns;
+    final port = _getDnsPort(dns.listen);
+    final domain = _getTestDomain(item.key);
+    final expected = _getExpectedAddresses(item.value);
+    if (domain.contains('*')) {
+      await globalState.showMessage(
+        title: "DNS Test",
+        message: TextSpan(
+          text: "Unsupported test domain: ${item.key}",
+        ),
+      );
+      return;
+    }
+    try {
+      final result = await DnsProbe.resolveA(
+        domain: domain,
+        server: localhost,
+        port: port,
+      );
+      final matched =
+          expected.isNotEmpty && expected.any(result.addresses.contains);
+      await globalState.showMessage(
+        title: "DNS Test",
+        cancelable: false,
+        message: TextSpan(
+          text: [
+            "Domain: $domain",
+            "Server: ${result.server}:${result.port}",
+            "Expected: ${expected.join(', ')}",
+            "Resolved: ${result.addresses.isEmpty ? 'empty' : result.addresses.join(', ')}",
+            "Result: ${matched ? 'matched' : 'not matched'}",
+          ].join("\n"),
+        ),
+      );
+    } catch (e) {
+      await globalState.showMessage(
+        title: "DNS Test",
+        message: TextSpan(
+          text: [
+            "Domain: $domain",
+            "Server: $localhost:$port",
+            "Expected: ${expected.join(', ')}",
+            "Error: $e",
+          ].join("\n"),
+        ),
+      );
+    }
+  }
+
+  Future<void> _handleToggle(
+    WidgetRef ref,
+    MapEntry<String, String> item,
+    bool enabled,
+  ) async {
+    final nextKey = HostEntry.storageKey(item.key, enabled: enabled);
+    if (nextKey == item.key) {
+      return;
+    }
+    final hosts = ref.read(patchClashConfigProvider).hosts;
+    if (hosts.containsKey(nextKey)) {
+      await globalState.showMessage(
+        title: "Hosts",
+        message: TextSpan(
+          text: "${HostEntry.displayKey(item.key)} already exists",
+        ),
+      );
+      return;
+    }
+    final nextHosts = Map<String, String>.from(hosts)
+      ..remove(item.key)
+      ..[nextKey] = item.value;
+    ref.read(patchClashConfigProvider.notifier).updateState(
+          (state) => state.copyWith(hosts: nextHosts),
+        );
+  }
+
   @override
   Widget build(BuildContext context) => ListItem.open(
         leading: const Icon(Icons.view_list_outlined),
@@ -421,8 +523,32 @@ class HostsItem extends StatelessWidget {
               return MapInputPage(
                 title: "Hosts",
                 map: hosts,
-                titleBuilder: (item) => Text(item.key),
+                titleBuilder: (item) => Text(HostEntry.displayKey(item.key)),
                 subtitleBuilder: (item) => Text(item.value),
+                editItemBuilder: (item) => MapEntry(
+                  HostEntry.displayKey(item.key),
+                  item.value,
+                ),
+                valueBuilder: (item, value) => MapEntry(
+                  HostEntry.storageKey(
+                    value.key,
+                    enabled: item == null || HostEntry.isEnabled(item.key),
+                  ),
+                  value.value,
+                ),
+                trailingBuilder: (item) => [
+                  Switch(
+                    value: HostEntry.isEnabled(item.key),
+                    onChanged: (value) => _handleToggle(ref, item, value),
+                  ),
+                  IconButton(
+                    tooltip: "DNS Test",
+                    icon: const Icon(Icons.network_check),
+                    onPressed: HostEntry.isEnabled(item.key)
+                        ? () => _handleTest(ref, item)
+                        : null,
+                  ),
+                ],
                 onChange: (value) {
                   ref.read(patchClashConfigProvider.notifier).updateState(
                         (state) => state.copyWith(

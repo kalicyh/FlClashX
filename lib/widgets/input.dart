@@ -12,7 +12,6 @@ import 'float_layout.dart';
 import 'list.dart';
 
 class OptionsDialog<T> extends StatelessWidget {
-
   const OptionsDialog({
     super.key,
     required this.title,
@@ -27,40 +26,39 @@ class OptionsDialog<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CommonDialog(
-      title: title,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8,
-        vertical: 16,
-      ),
-      child: Wrap(
-        children: [
-          for (final option in options)
-            Builder(
-              builder: (context) {
-                if (value == option) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    Scrollable.ensureVisible(context);
-                  });
-                }
-                return ListItem.radio(
-                  delegate: RadioDelegate(
-                    value: option,
-                    groupValue: value,
-                    onChanged: (value) {
-                      Navigator.of(context).pop(value);
-                    },
-                  ),
-                  title: Text(textBuilder(option)),
-                );
-              },
-            ),
-        ],
-      ),
-    );
+        title: title,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8,
+          vertical: 16,
+        ),
+        child: Wrap(
+          children: [
+            for (final option in options)
+              Builder(
+                builder: (context) {
+                  if (value == option) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      Scrollable.ensureVisible(context);
+                    });
+                  }
+                  return ListItem.radio(
+                    delegate: RadioDelegate(
+                      value: option,
+                      groupValue: value,
+                      onChanged: (value) {
+                        Navigator.of(context).pop(value);
+                      },
+                    ),
+                    title: Text(textBuilder(option)),
+                  );
+                },
+              ),
+          ],
+        ),
+      );
 }
 
 class CommonCheckBox extends StatelessWidget {
-
   const CommonCheckBox({
     required this.value,
     required this.onChanged,
@@ -73,14 +71,13 @@ class CommonCheckBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Checkbox(
-      shape: isCircle ? const CircleBorder() : null,
-      value: value,
-      onChanged: onChanged,
-    );
+        shape: isCircle ? const CircleBorder() : null,
+        value: value,
+        onChanged: onChanged,
+      );
 }
 
 class InputDialog extends StatefulWidget {
-
   const InputDialog({
     super.key,
     required this.title,
@@ -139,53 +136,52 @@ class _InputDialogState extends State<InputDialog> {
 
   @override
   Widget build(BuildContext context) => CommonDialog(
-      title: title,
-      actions: [
-        if (widget.resetValue != null &&
-            textController.value.text != widget.resetValue) ...[
-          TextButton(
-            onPressed: _handleReset,
-            child: Text(appLocalizations.reset),
-          ),
-          const SizedBox(
-            width: 4,
-          ),
-        ],
-        TextButton(
-          onPressed: _handleUpdate,
-          child: Text(appLocalizations.submit),
-        )
-      ],
-      child: Form(
-        autovalidateMode: widget.autovalidateMode,
-        key: _formKey,
-        child: Wrap(
-          runSpacing: 16,
-          children: [
-            TextFormField(
-              keyboardType: TextInputType.url,
-              maxLines: 5,
-              minLines: 1,
-              controller: textController,
-              onFieldSubmitted: (_) {
-                _handleUpdate();
-              },
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                suffixText: suffixText,
-                hintText: widget.hintText,
-                labelText: widget.labelText,
-              ),
-              validator: widget.validator,
+        title: title,
+        actions: [
+          if (widget.resetValue != null &&
+              textController.value.text != widget.resetValue) ...[
+            TextButton(
+              onPressed: _handleReset,
+              child: Text(appLocalizations.reset),
+            ),
+            const SizedBox(
+              width: 4,
             ),
           ],
+          TextButton(
+            onPressed: _handleUpdate,
+            child: Text(appLocalizations.submit),
+          )
+        ],
+        child: Form(
+          autovalidateMode: widget.autovalidateMode,
+          key: _formKey,
+          child: Wrap(
+            runSpacing: 16,
+            children: [
+              TextFormField(
+                keyboardType: TextInputType.url,
+                maxLines: 5,
+                minLines: 1,
+                controller: textController,
+                onFieldSubmitted: (_) {
+                  _handleUpdate();
+                },
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  suffixText: suffixText,
+                  hintText: widget.hintText,
+                  labelText: widget.labelText,
+                ),
+                validator: widget.validator,
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
 }
 
 class ListInputPage extends StatelessWidget {
-
   const ListInputPage({
     super.key,
     required this.title,
@@ -255,65 +251,64 @@ class ListInputPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => FloatLayout(
-      floatingWidget: FloatWrapper(
-        child: FloatingActionButton(
-          onPressed: () async {
-            _handleAddOrEdit();
-          },
-          child: const Icon(Icons.add),
+        floatingWidget: FloatWrapper(
+          child: FloatingActionButton(
+            onPressed: () async {
+              await _handleAddOrEdit();
+            },
+            child: const Icon(Icons.add),
+          ),
         ),
-      ),
-      child: items.isEmpty
-          ? NullStatus(label: appLocalizations.noData)
-          : ReorderableListView.builder(
-              padding: const EdgeInsets.only(
-                bottom: 16 + 64,
-              ),
-              buildDefaultDragHandles: false,
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final e = items[index];
-                return _InputItem(
-                  key: ValueKey(e),
-                  ReorderableDelayedDragStartListener(
-                    index: index,
-                    child: CommonCard(
-                      child: ListItem(
-                        leading:
-                            leadingBuilder != null ? leadingBuilder!(e) : null,
-                        title: titleBuilder(e),
-                        subtitle: subtitleBuilder != null
-                            ? subtitleBuilder!(e)
-                            : null,
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete_outline),
-                          onPressed: () {
-                            _handleDelete(e);
-                          },
+        child: items.isEmpty
+            ? NullStatus(label: appLocalizations.noData)
+            : ReorderableListView.builder(
+                padding: const EdgeInsets.only(
+                  bottom: 16 + 64,
+                ),
+                buildDefaultDragHandles: false,
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  final e = items[index];
+                  return _InputItem(
+                    key: ValueKey(e),
+                    ReorderableDelayedDragStartListener(
+                      index: index,
+                      child: CommonCard(
+                        child: ListItem(
+                          leading: leadingBuilder != null
+                              ? leadingBuilder!(e)
+                              : null,
+                          title: titleBuilder(e),
+                          subtitle: subtitleBuilder != null
+                              ? subtitleBuilder!(e)
+                              : null,
+                          trailing: IconButton(
+                            icon: const Icon(Icons.delete_outline),
+                            onPressed: () {
+                              _handleDelete(e);
+                            },
+                          ),
                         ),
+                        onPressed: () {
+                          _handleAddOrEdit(e);
+                        },
                       ),
-                      onPressed: () {
-                        _handleAddOrEdit(e);
-                      },
                     ),
-                  ),
-                );
-              },
-              onReorder: (oldIndex, newIndex) {
-                if (oldIndex < newIndex) {
-                  newIndex -= 1;
-                }
-                final nextItems = List<String>.from(items);
-                final item = nextItems.removeAt(oldIndex);
-                nextItems.insert(newIndex, item);
-                onChange(nextItems);
-              },
-            ),
-    );
+                  );
+                },
+                onReorder: (oldIndex, newIndex) {
+                  final targetIndex =
+                      oldIndex < newIndex ? newIndex - 1 : newIndex;
+                  final nextItems = List<String>.from(items);
+                  final item = nextItems.removeAt(oldIndex);
+                  nextItems.insert(targetIndex, item);
+                  onChange(nextItems);
+                },
+              ),
+      );
 }
 
 class MapInputPage extends StatelessWidget {
-
   const MapInputPage({
     super.key,
     required this.title,
@@ -324,12 +319,22 @@ class MapInputPage extends StatelessWidget {
     this.keyLabel,
     this.valueLabel,
     this.subtitleBuilder,
+    this.trailingBuilder,
+    this.editItemBuilder,
+    this.valueBuilder,
   });
   final String title;
   final Map<String, String> map;
   final Widget Function(MapEntry<String, String> item) titleBuilder;
   final Widget Function(MapEntry<String, String> item)? subtitleBuilder;
   final Widget Function(MapEntry<String, String> item)? leadingBuilder;
+  final List<Widget> Function(MapEntry<String, String> item)? trailingBuilder;
+  final MapEntry<String, String> Function(MapEntry<String, String> item)?
+      editItemBuilder;
+  final MapEntry<String, String> Function(
+    MapEntry<String, String>? item,
+    MapEntry<String, String> value,
+  )? valueBuilder;
   final String? keyLabel;
   final String? valueLabel;
   final Function(Map<String, String> items) onChange;
@@ -340,11 +345,16 @@ class MapInputPage extends StatelessWidget {
       );
 
   Future<void> _handleAddOrEdit([MapEntry<String, String>? item]) async {
+    final editItem =
+        item != null && editItemBuilder != null ? editItemBuilder!(item) : item;
+
     String? uniqueValidator(String? value) {
+      final nextKey =
+          valueBuilder?.call(item, MapEntry(value ?? "", "")).key ?? value;
       final index = items.indexWhere(
-        (entry) => entry.key == value,
+        (entry) => entry.key == nextKey,
       );
-      final current = item?.key == value;
+      final current = item?.key == nextKey;
       if (index != -1 && !current) {
         return appLocalizations.existsTip(appLocalizations.key);
       }
@@ -353,13 +363,13 @@ class MapInputPage extends StatelessWidget {
 
     final keyField = Field(
       label: keyLabel ?? appLocalizations.key,
-      value: item == null ? "" : item.key,
+      value: editItem == null ? "" : editItem.key,
       validator: uniqueValidator,
     );
 
     final valueField = Field(
       label: valueLabel ?? appLocalizations.value,
-      value: item == null ? "" : item.value,
+      value: editItem == null ? "" : editItem.value,
     );
 
     final value = await globalState.showCommonDialog<MapEntry<String, String>>(
@@ -375,10 +385,11 @@ class MapInputPage extends StatelessWidget {
     );
 
     final nextItems = List<MapEntry<String, String>>.from(items);
+    final nextValue = valueBuilder?.call(item, value) ?? value;
     if (item != null) {
-      nextItems[index] = value;
+      nextItems[index] = nextValue;
     } else {
-      nextItems.add(value);
+      nextItems.add(nextValue);
     }
     onChange(Map.fromEntries(nextItems));
   }
@@ -398,66 +409,72 @@ class MapInputPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => FloatLayout(
-      floatingWidget: FloatWrapper(
-        child: FloatingActionButton(
-          onPressed: () async {
-            _handleAddOrEdit();
-          },
-          child: const Icon(Icons.add),
+        floatingWidget: FloatWrapper(
+          child: FloatingActionButton(
+            onPressed: () async {
+              await _handleAddOrEdit();
+            },
+            child: const Icon(Icons.add),
+          ),
         ),
-      ),
-      child: items.isEmpty
-          ? NullStatus(label: appLocalizations.noData)
-          : ReorderableListView.builder(
-              padding: const EdgeInsets.only(
-                bottom: 16 + 64,
-              ),
-              proxyDecorator: proxyDecorator,
-              buildDefaultDragHandles: false,
-              itemCount: items.length,
-              itemBuilder: (_, index) {
-                final e = items[index];
-                return _InputItem(
-                  key: ValueKey(e.key),
-                  ReorderableDelayedDragStartListener(
-                    index: index,
-                    child: CommonCard(
-                      child: ListItem(
-                        leading:
-                            leadingBuilder != null ? leadingBuilder!(e) : null,
-                        title: titleBuilder(e),
-                        subtitle: subtitleBuilder != null
-                            ? subtitleBuilder!(e)
-                            : null,
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete_outline),
-                          onPressed: () {
-                            _handleDelete(e);
-                          },
+        child: items.isEmpty
+            ? NullStatus(label: appLocalizations.noData)
+            : ReorderableListView.builder(
+                padding: const EdgeInsets.only(
+                  bottom: 16 + 64,
+                ),
+                proxyDecorator: proxyDecorator,
+                buildDefaultDragHandles: false,
+                itemCount: items.length,
+                itemBuilder: (_, index) {
+                  final e = items[index];
+                  return _InputItem(
+                    key: ValueKey(e.key),
+                    ReorderableDelayedDragStartListener(
+                      index: index,
+                      child: CommonCard(
+                        child: ListItem(
+                          leading: leadingBuilder != null
+                              ? leadingBuilder!(e)
+                              : null,
+                          title: titleBuilder(e),
+                          subtitle: subtitleBuilder != null
+                              ? subtitleBuilder!(e)
+                              : null,
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (trailingBuilder != null)
+                                ...trailingBuilder!(e),
+                              IconButton(
+                                icon: const Icon(Icons.delete_outline),
+                                onPressed: () {
+                                  _handleDelete(e);
+                                },
+                              ),
+                            ],
+                          ),
                         ),
+                        onPressed: () {
+                          _handleAddOrEdit(e);
+                        },
                       ),
-                      onPressed: () {
-                        _handleAddOrEdit(e);
-                      },
                     ),
-                  ),
-                );
-              },
-              onReorder: (oldIndex, newIndex) {
-                if (oldIndex < newIndex) {
-                  newIndex -= 1;
-                }
-                final nextItems = List<MapEntry<String, String>>.from(items);
-                final item = nextItems.removeAt(oldIndex);
-                nextItems.insert(newIndex, item);
-                onChange(Map.fromEntries(nextItems));
-              },
-            ),
-    );
+                  );
+                },
+                onReorder: (oldIndex, newIndex) {
+                  final targetIndex =
+                      oldIndex < newIndex ? newIndex - 1 : newIndex;
+                  final nextItems = List<MapEntry<String, String>>.from(items);
+                  final item = nextItems.removeAt(oldIndex);
+                  nextItems.insert(targetIndex, item);
+                  onChange(Map.fromEntries(nextItems));
+                },
+              ),
+      );
 }
 
 class AddDialog extends StatefulWidget {
-
   const AddDialog({
     super.key,
     required this.title,
@@ -512,84 +529,83 @@ class _AddDialogState extends State<AddDialog> {
 
   @override
   Widget build(BuildContext context) => CommonDialog(
-      title: widget.title,
-      actions: [
-        TextButton(
-          onPressed: _submit,
-          child: Text(appLocalizations.confirm),
-        )
-      ],
-      child: Form(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        key: _formKey,
-        child: Wrap(
-          runSpacing: 16,
-          children: [
-            if (keyField != null)
+        title: widget.title,
+        actions: [
+          TextButton(
+            onPressed: _submit,
+            child: Text(appLocalizations.confirm),
+          )
+        ],
+        child: Form(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          key: _formKey,
+          child: Wrap(
+            runSpacing: 16,
+            children: [
+              if (keyField != null)
+                TextFormField(
+                  maxLines: 2,
+                  minLines: 1,
+                  controller: keyController,
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    labelText: keyField!.label,
+                  ),
+                  validator: (value) {
+                    String? res;
+                    if (keyField!.validator != null) {
+                      res = keyField!.validator!(value);
+                    }
+                    if (res != null) {
+                      return res;
+                    }
+                    if (value == null || value.isEmpty) {
+                      return appLocalizations.emptyTip(appLocalizations.key);
+                    }
+                    return null;
+                  },
+                ),
               TextFormField(
-                maxLines: 2,
+                maxLines: 3,
                 minLines: 1,
-                controller: keyController,
+                controller: valueController,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  labelText: keyField!.label,
+                  labelText: valueField.label,
                 ),
                 validator: (value) {
                   String? res;
-                  if (keyField!.validator != null) {
-                    res = keyField!.validator!(value);
+                  if (valueField.validator != null) {
+                    res = valueField.validator!(value);
                   }
                   if (res != null) {
                     return res;
                   }
                   if (value == null || value.isEmpty) {
-                    return appLocalizations.emptyTip(appLocalizations.key);
+                    return appLocalizations.emptyTip(appLocalizations.value);
                   }
                   return null;
                 },
               ),
-            TextFormField(
-              maxLines: 3,
-              minLines: 1,
-              controller: valueController,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: valueField.label,
-              ),
-              validator: (value) {
-                String? res;
-                if (valueField.validator != null) {
-                  res = valueField.validator!(value);
-                }
-                if (res != null) {
-                  return res;
-                }
-                if (value == null || value.isEmpty) {
-                  return appLocalizations.emptyTip(appLocalizations.value);
-                }
-                return null;
-              },
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
 }
 
 class _InputItem extends StatelessWidget {
-
   const _InputItem(this.child, {super.key});
   final Widget child;
 
   @override
   Widget build(BuildContext context) => Material(
-      elevation: 0,
-      key: key,
-      color: Colors.transparent,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        margin: const EdgeInsets.symmetric(vertical: 8),
-        child: child,
-      ),
-    );
+        elevation: 0,
+        key: key,
+        color: Colors.transparent,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          child: child,
+        ),
+      );
 }
